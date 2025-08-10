@@ -2,10 +2,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class MainGamePart : BasePart {
-
-    [SerializeField]
-    private static GameObject MainMap = null;
-
     public override async UniTask Init() {
         await base.Init();
         await UniTask.CompletedTask;
