@@ -7,6 +7,13 @@ public abstract class CharacterBase : MonoBehaviour
     //[SerializeField]
     //private CharacterStatus status = null;
 
+    protected enum CharacterState {
+        Invalid = -1,
+        Field,
+        Battle,
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
