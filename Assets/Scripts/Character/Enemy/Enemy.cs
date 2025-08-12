@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterBase : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    //[SerializeField]
-    //private CharacterStatus status = null;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -14,8 +11,8 @@ public abstract class CharacterBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
-
+    void Update()
+    {
+        
     }
-    public abstract void Initilized();
 }

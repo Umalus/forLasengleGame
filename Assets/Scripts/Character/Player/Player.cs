@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterBase : MonoBehaviour
+public class Player : CharacterBase
 {
-    //[SerializeField]
-    //private CharacterStatus status = null;
-
+    
     // Start is called before the first frame update
     void Start()
+    {
+        Initilized();
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         
     }
 
-    // Update is called once per frame
-    void Update() {
-
+    public override void Initilized() {
+        
     }
-    public abstract void Initilized();
 }
