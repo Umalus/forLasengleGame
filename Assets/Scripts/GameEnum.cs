@@ -7,7 +7,6 @@ public class GameEnum {
         Invalid = -1,
         Standby,
         Title,
-        Select,
         MainGame,
         Ending,
 

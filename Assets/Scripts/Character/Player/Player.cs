@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class Player : CharacterBase
 {
-    
+
     // Start is called before the first frame update
+    public bool isBattle { get; private set; } = false;
+    [SerializeField]
+    private Action action = null;
+    [SerializeField]
+    private PlayerAction playerAction = null;
+    public Rigidbody rb { get; private set; } = null;
     void Start()
     {
         Initilized();
@@ -18,6 +24,13 @@ public class Player : CharacterBase
     }
 
     public override void Initilized() {
-        
+        //インプットアクションを初期化
+        action = InputSystemManager.instance.inputActions;
+        //プレイヤーのアクション群も初期化
+        if(playerAction == null)
+            playerAction = new PlayerAction();
+
+        action.Player.Move.performed += playerAction.OnMovePerformed;
+        action.Player.NormalAttack.performed += playerAction.Attack;
     }
 }
