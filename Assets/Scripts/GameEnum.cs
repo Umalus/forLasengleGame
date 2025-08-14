@@ -22,4 +22,10 @@ public class GameEnum {
 
         eDirectionMax
     }
+
+    public enum eFloorEndReason {
+        Invalid = -1,
+        Dead,
+        Door,
+    }
 }
