@@ -26,8 +26,6 @@ public class FloorManager : MonoBehaviour{
 
     public async UniTask Execute() {
         while (endReason == eFloorEndReason.Door) {
-
-
             await UniTask.CompletedTask;
         }
 

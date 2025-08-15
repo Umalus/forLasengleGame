@@ -23,9 +23,19 @@ public class GameEnum {
         eDirectionMax
     }
 
+    public enum eGamePhase {
+        Invalid = -1,
+        Exploration,
+        Battle,
+
+        PhaseMax,
+    }
+
     public enum eFloorEndReason {
         Invalid = -1,
         Dead,
         Door,
+
+        ReasonMax,
     }
 }

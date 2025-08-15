@@ -25,4 +25,6 @@ public abstract class CharacterBase : MonoBehaviour
 
     }
     public abstract void Initilized();
+
+    public abstract bool IsPlayer();
 }

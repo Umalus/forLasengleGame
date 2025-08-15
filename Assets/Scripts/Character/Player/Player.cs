@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,7 @@ public class Player : CharacterBase
     public bool isBattle { get; private set; } = false;
     [SerializeField]
     private Action action = null;
-    [SerializeField]
-    private PlayerAction playerAction = null;
+    public PlayerAction playerAction = null;
     public Rigidbody rb { get; private set; } = null;
     void Start()
     {
@@ -31,6 +31,15 @@ public class Player : CharacterBase
             playerAction = new PlayerAction();
 
         action.Player.Move.performed += playerAction.OnMovePerformed;
-        action.Player.NormalAttack.performed += playerAction.Attack;
+        action.Player.NormalAttack.performed += playerAction.AttackInField;
+    }
+    
+    //バトルーフェーズの
+    public async UniTask Battle() {
+        await UniTask.CompletedTask;
+    }
+
+    public override bool IsPlayer() {
+        return true;
     }
 }

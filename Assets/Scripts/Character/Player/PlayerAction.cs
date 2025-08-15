@@ -3,6 +3,7 @@
  * @brief   プレイヤーのアクション群
  *
  */
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,18 +20,16 @@ public class PlayerAction{
 
     }
 
-    public void Attack(InputAction.CallbackContext _callback) {
-        if (operatePlayer.isBattle) {
-
-        }
-        else {
-
-        }
+    public void AttackInField(InputAction.CallbackContext _callback) {
+        
     }
 
     public void UseItem<T>() {
         
     }
 
+    //バトル中の行動選択
+    public async UniTask Order() {
 
+    }
 }
