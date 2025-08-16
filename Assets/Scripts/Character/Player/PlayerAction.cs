@@ -13,6 +13,7 @@ using static CommonModule;
 
 public class PlayerAction{
     public Player operatePlayer = null;
+    private bool isNormalAttack = false;
 
     public void OnMovePerformed(InputAction.CallbackContext _callback) {
         var inputDir = _callback.ReadValue<Vector2>();
@@ -30,6 +31,16 @@ public class PlayerAction{
 
     //バトル中の行動選択
     public async UniTask Order() {
+        while (true) {
+            if (await NormalAttack())
+                break;
+        }
+    }
 
+    private async UniTask<bool> NormalAttack() {
+        if (!isNormalAttack) return false;
+
+        await UniTask.CompletedTask;
+        return true;
     }
 }

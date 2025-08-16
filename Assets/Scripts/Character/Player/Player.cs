@@ -42,4 +42,10 @@ public class Player : CharacterBase
     public override bool IsPlayer() {
         return true;
     }
+
+    public async UniTask AddExp(int _addExp) {
+        int exp = 0;
+        exp += _addExp;
+        await UniTask.CompletedTask;
+    }
 }

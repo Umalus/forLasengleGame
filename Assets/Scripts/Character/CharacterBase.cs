@@ -6,6 +6,7 @@ public abstract class CharacterBase : MonoBehaviour
 {
     //[SerializeField]
     //private CharacterStatus status = null;
+    public bool isDead { get; protected set; } = false;
 
     protected enum CharacterState {
         Invalid = -1,
