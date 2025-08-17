@@ -17,4 +17,12 @@ public class InputSystemManager : SystemObject
 
         await UniTask.CompletedTask;
     }
+
+#if UNITY_EDITOR
+    private void Start() {
+        instance = this;
+        inputActions = new Action();
+
+    }
+#endif
 }

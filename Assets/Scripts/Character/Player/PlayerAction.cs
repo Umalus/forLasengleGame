@@ -14,13 +14,16 @@ using static CommonModule;
 public class PlayerAction{
     public Player operatePlayer = null;
     private bool isNormalAttack = false;
-
     public void OnMovePerformed(InputAction.CallbackContext _callback) {
-        var inputDir = _callback.ReadValue<Vector2>();
-        operatePlayer.rb.AddForce(inputDir.normalized * Time.deltaTime);
+        
+        operatePlayer.moveDir.x = _callback.ReadValue<Vector2>().x;
+        operatePlayer.moveDir.z = _callback.ReadValue<Vector2>().y;
 
     }
 
+    public void OnMoveCancled(InputAction.CallbackContext _callback) {
+        operatePlayer.moveDir = Vector3.zero;
+    }
     public void AttackInField(InputAction.CallbackContext _callback) {
         
     }

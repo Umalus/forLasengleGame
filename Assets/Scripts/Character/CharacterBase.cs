@@ -12,18 +12,6 @@ public abstract class CharacterBase : MonoBehaviour
         Invalid = -1,
         Field,
         Battle,
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
     public abstract void Initilized();
 

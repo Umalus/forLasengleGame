@@ -12,6 +12,8 @@ public class Player : CharacterBase
     private Action action = null;
     public PlayerAction playerAction = null;
     public Rigidbody rb { get; private set; } = null;
+    public float moveSpeed = 10.0f;
+    public Vector3 moveDir = Vector3.zero;
     void Start()
     {
         Initilized();
@@ -22,16 +24,26 @@ public class Player : CharacterBase
     {
         
     }
+    private void FixedUpdate() {
+        rb.AddForce(moveDir.normalized * moveSpeed, ForceMode.Force);
+    }
 
     public override void Initilized() {
         //インプットアクションを初期化
         action = InputSystemManager.instance.inputActions;
+        //リジッドボディも初期化
+        rb = GetComponent<Rigidbody>();
         //プレイヤーのアクション群も初期化
         if(playerAction == null)
             playerAction = new PlayerAction();
 
+        playerAction.operatePlayer = this;
+
         action.Player.Move.performed += playerAction.OnMovePerformed;
+        action.Player.Move.canceled += playerAction.OnMoveCancled;
         action.Player.NormalAttack.performed += playerAction.AttackInField;
+
+        action.Enable();
     }
     
     //バトルーフェーズの
