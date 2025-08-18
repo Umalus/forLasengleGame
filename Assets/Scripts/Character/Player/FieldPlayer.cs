@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : CharacterBase
+public class FieldPlayer : FieldCharacterBase
 {
 
     // Start is called before the first frame update
@@ -11,24 +11,21 @@ public class Player : CharacterBase
     [SerializeField]
     private Action action = null;
     public PlayerAction playerAction = null;
-    public Rigidbody rb { get; private set; } = null;
-    public float moveSpeed = 10.0f;
-    public Vector3 moveDir = Vector3.zero;
+    
     void Start()
     {
-        Initilized();
+        Initialize();
     }
-
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
     private void FixedUpdate() {
-        rb.AddForce(moveDir.normalized * moveSpeed, ForceMode.Force);
+        rb.AddForce(moveDir * moveSpeed * 10f,ForceMode.Force);
     }
 
-    public override void Initilized() {
+    public override void Initialize() {
         //インプットアクションを初期化
         action = InputSystemManager.instance.inputActions;
         //リジッドボディも初期化
@@ -44,20 +41,5 @@ public class Player : CharacterBase
         action.Player.NormalAttack.performed += playerAction.AttackInField;
 
         action.Enable();
-    }
-    
-    //バトルーフェーズの
-    public async UniTask Battle() {
-        await UniTask.CompletedTask;
-    }
-
-    public override bool IsPlayer() {
-        return true;
-    }
-
-    public async UniTask AddExp(int _addExp) {
-        int exp = 0;
-        exp += _addExp;
-        await UniTask.CompletedTask;
     }
 }

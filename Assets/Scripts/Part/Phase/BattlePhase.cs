@@ -7,15 +7,19 @@ using static CommonModule;
 
 public class BattlePhase : BasePhase
 {
+    //プレイヤーを配置する親オブジェクトの位置
     [SerializeField]
     private Transform playersRoot = null;
+    //敵を配置する親オブジェクトの位置
     [SerializeField]
     private Transform enemiesRoot = null;
 
+    //戦闘に参加しているプレイヤー
     [SerializeField]
-    private List<Player> players = null;
+    private List<BattlePlayer> players = null;
+    //戦闘に参加している敵
     [SerializeField]
-    private List<Enemy> enemies = null;
+    private List<BattleEnemy> enemies = null;
 
     private int allAddExp = -1;
     private bool turn = true;
@@ -35,7 +39,7 @@ public class BattlePhase : BasePhase
 
         //キャラクター全ての行動順を設定
         int characterMax = players.Count + enemies.Count;
-        List<CharacterBase> inCharacterOrder = new List<CharacterBase>(characterMax);
+        List<BattleCharacterBase> inCharacterOrder = new List<BattleCharacterBase>(characterMax);
        
         for (int i = 0;i < characterMax; i++) {
             if(i >= players.Count)
@@ -43,6 +47,8 @@ public class BattlePhase : BasePhase
 
             inCharacterOrder.Add(players[i]);
         }
+
+        inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
         int pastTurn = 0;
         //敵か味方が全滅するまでループ
@@ -50,7 +56,7 @@ public class BattlePhase : BasePhase
             //turnが自分のキャラクターなら
             if (turn) {
                 //プレイヤーの行動を選択
-                await inCharacterOrder[pastTurn].GetComponent<Player>().playerAction.Order();
+                await inCharacterOrder[pastTurn].GetComponent<FieldPlayer>().playerAction.Order();
             }
             //turnが敵のキャラなら
             else {
@@ -89,7 +95,7 @@ public class BattlePhase : BasePhase
         enemies.Clear();
     }
 
-    private bool IsRelativeEnemy(CharacterBase _source,CharacterBase _target) {
+    private bool IsRelativeEnemy(BattleCharacterBase _source,BattleCharacterBase _target) {
         return _source.IsPlayer() !=  _target.IsPlayer();
     }
 
@@ -102,7 +108,7 @@ public class BattlePhase : BasePhase
         }
         return true;
     }
-    private bool IsEnemiesTeamAllDead(List<Enemy> _enemyTeam) {
+    private bool IsEnemiesTeamAllDead(List<BattleEnemy> _enemyTeam) {
         for (int i = 0, max = _enemyTeam.Count; i < max; i++) {
             if (!_enemyTeam[i].isDead) {
                 return false;

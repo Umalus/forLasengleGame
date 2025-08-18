@@ -12,7 +12,7 @@ using static CommonModule;
 
 
 public class PlayerAction{
-    public Player operatePlayer = null;
+    public FieldPlayer operatePlayer = null;
     private bool isNormalAttack = false;
     public void OnMovePerformed(InputAction.CallbackContext _callback) {
         

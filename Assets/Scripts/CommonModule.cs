@@ -53,4 +53,21 @@ public class CommonModule{
             await UniTask.DelayFrame(1);
         }
     }
+
+    public static void InitializeList<T>(ref List<T> _list, int capacity = -1) {
+        if (_list == null) {
+            if (capacity < 1) {
+                _list = new List<T>();
+            }
+            else {
+                _list = new List<T>(capacity);
+            }
+        }
+        else {
+            if (_list.Capacity < capacity)
+                _list.Capacity = capacity;
+
+            _list.Clear();
+        }
+    }
 }

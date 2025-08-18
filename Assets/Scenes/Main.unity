@@ -249,7 +249,6 @@ MonoBehaviour:
   - {fileID: 5376390089232943283, guid: af176931998f00145bd6404fdb6ecad0, type: 3}
   - {fileID: 1527031608582861361, guid: 8cfdcacab0083834092138d2ed8210d7, type: 3}
   - {fileID: -7035421684423095182, guid: ac0bd04945f7bca4f9ce01e92e587433, type: 3}
-  - {fileID: 0}
 --- !u!4 &763127718
 Transform:
   m_ObjectHideFlags: 0
@@ -275,11 +274,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 905112064851957577, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
       propertyPath: moveSpeed
-      value: 10
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3973627162950582814, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
       propertyPath: m_Name
-      value: DemoPlayer
+      value: DemoFieldPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 3973627162950582814, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
       propertyPath: m_TagString
@@ -290,8 +289,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 37c7f0c32f466b84892c711d90c2ba5b, type: 2}
     - target: {fileID: 6008094234795184055, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
+      propertyPath: m_Drag
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6008094234795184055, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
       propertyPath: m_UseGravity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6008094234795184055, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
+      propertyPath: m_AngularDrag
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6008094234795184055, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
       propertyPath: m_Constraints
@@ -337,7 +344,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 905112064851957577, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

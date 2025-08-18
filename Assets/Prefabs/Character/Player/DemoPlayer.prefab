@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 5955203394499901154}
   - component: {fileID: 2341806394563428223}
   - component: {fileID: 6008094234795184055}
-  - component: {fileID: 905112064851957577}
   - component: {fileID: 8663646772071402930}
+  - component: {fileID: 9069781004732036501}
   m_Layer: 0
   m_Name: DemoPlayer
   m_TagString: Untagged
@@ -137,18 +137,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &905112064851957577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3973627162950582814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed813348d5710054ba6d42a4100c810c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8663646772071402930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,3 +151,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBreak: 0
   startPos: {x: 0, y: 0, z: 0}
+--- !u!114 &9069781004732036501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3973627162950582814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53201b9db010c248ab48eae9efbed3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  moveDir: {x: 0, y: 0, z: 0}

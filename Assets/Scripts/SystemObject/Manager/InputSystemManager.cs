@@ -19,10 +19,9 @@ public class InputSystemManager : SystemObject
     }
 
 #if UNITY_EDITOR
-    private void Start() {
+    private void Awake() {
         instance = this;
         inputActions = new Action();
-
     }
 #endif
 }

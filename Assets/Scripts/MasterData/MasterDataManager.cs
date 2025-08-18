@@ -7,10 +7,13 @@ public class MasterDataManager : MonoBehaviour
 {
     private static readonly string _DATA_PATH = "MasterData/";
 
+    public static List<List<Entity_CharacterStatus.Param>> characterStatus = null;
+
     /// <summary>
     /// 全てのマスターデータを読み込む
     /// </summary>
     public static void LoadAllData() {
+        characterStatus = Load<Entity_CharacterStatus, Entity_CharacterStatus.Sheet, Entity_CharacterStatus.Param>("CharacterStatus");
     }
 
     /// <summary>
