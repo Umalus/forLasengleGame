@@ -13,7 +13,8 @@ using static CommonModule;
 
 public class PlayerAction{
     public FieldPlayer operatePlayer = null;
-    private bool isNormalAttack = false;
+    public BattlePlayer battlePlayer = null;
+    //private bool isNormalAttack = false;
     public void OnMovePerformed(InputAction.CallbackContext _callback) {
         
         operatePlayer.moveDir.x = _callback.ReadValue<Vector2>().x;
@@ -40,9 +41,7 @@ public class PlayerAction{
         }
     }
 
-    private async UniTask<bool> NormalAttack() {
-        if (!isNormalAttack) return false;
-
+    public async UniTask<bool> NormalAttack() {
         await UniTask.CompletedTask;
         return true;
     }

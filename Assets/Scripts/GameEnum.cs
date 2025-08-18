@@ -13,23 +13,6 @@ public class GameEnum {
         PartMax
     }
 
-    public enum eDirectionFour {
-        Invalid = -1,
-        Up,
-        Right,
-        Down,
-        Left,
-
-        eDirectionMax
-    }
-
-    public enum eGamePhase {
-        Invalid = -1,
-        Exploration,
-        Battle,
-
-        PhaseMax,
-    }
 
     public enum eFloorEndReason {
         Invalid = -1,
@@ -37,5 +20,11 @@ public class GameEnum {
         Door,
 
         ReasonMax,
+    }
+
+    public enum eGamePhase {
+        Invalid = -1,
+        Field,
+        Battle,
     }
 }

@@ -42,4 +42,6 @@ public class FieldPlayer : FieldCharacterBase
 
         action.Enable();
     }
+
+
 }

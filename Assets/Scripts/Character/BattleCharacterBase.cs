@@ -100,4 +100,8 @@ public abstract class BattleCharacterBase : MonoBehaviour
     public int GetID() {
         return ID;
     }
+
+    public int GetTarget() {
+        return ID;
+    }
 }
