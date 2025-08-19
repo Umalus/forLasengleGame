@@ -6,8 +6,12 @@ using UnityEngine;
 
 public class FieldPhase : BasePhase
 {
+    [SerializeField]
+    private FloorManager floorManager = null;
     public override async UniTask Initialize() {
         await base.Initialize();
+        await floorManager.Initialize();
+
     }
 
     public override async UniTask Execute() {
@@ -15,4 +19,5 @@ public class FieldPhase : BasePhase
 
         await UniTask.CompletedTask;
     }
+    
 }

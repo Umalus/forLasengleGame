@@ -165,3 +165,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   moveDir: {x: 0, y: 0, z: 0}
+  myParty:
+  - {fileID: 6579999417975817913, guid: d47fd6ed1c7ab0041b5bf89646f7f636, type: 3}

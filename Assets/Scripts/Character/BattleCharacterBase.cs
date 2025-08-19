@@ -6,7 +6,6 @@ using UnityEngine;
 
 public abstract class BattleCharacterBase : MonoBehaviour
 {
-    //[SerializeField]
     public int ID { get; private set; } = -1;
     public int masterID { get; protected set; } = -1;
     public bool isDead { get; protected set; } = false;

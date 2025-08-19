@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7258559873475507731
+--- !u!1 &4316556961991014343
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2784961648595360203}
-  - component: {fileID: -398181447023080827}
+  - component: {fileID: 8944485883287625290}
+  - component: {fileID: 6579999417975817913}
   m_Layer: 0
-  m_Name: FieldPhase
+  m_Name: Saber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2784961648595360203
+--- !u!4 &8944485883287625290
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7258559873475507731}
+  m_GameObject: {fileID: 4316556961991014343}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -16.27927, y: -4.338871, z: -3.088866}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-398181447023080827
+--- !u!114 &6579999417975817913
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7258559873475507731}
+  m_GameObject: {fileID: 4316556961991014343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ef3d293d19b32640b48742fd7212a2f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebd2b9893b6a6e342b0bb02976e63838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageObjects:
-  - {fileID: 8663646772071402930, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
+  normalAttackButton: {fileID: 0}

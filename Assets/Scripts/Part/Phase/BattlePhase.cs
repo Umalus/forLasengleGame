@@ -16,24 +16,33 @@ public class BattlePhase : BasePhase
 
     //戦闘に参加しているプレイヤー
     [SerializeField]
-    private List<BattlePlayer> players = null;
+    private static List<BattlePlayer> players = null;
     //戦闘に参加している敵
     [SerializeField]
-    private List<BattleEnemy> enemies = null;
+    private static List<BattleEnemy> enemies = null;
 
     private int allAddExp = -1;
     private bool turn = true;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
     override public async UniTask Initialize() {
+        allAddExp = 0;
         for(int i = 0,max = players.Count;i < max; i++) {
             players[i].transform.SetParent(playersRoot);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
             enemies[i].transform.SetParent(enemiesRoot);
+            allAddExp += enemies[i].exp;
         }
-
+        
         await UniTask.CompletedTask;
     }
-
+    /// <summary>
+    /// 更新処理
+    /// </summary>
+    /// <returns></returns>
     public override async UniTask Execute() {
         gameObject.SetActive(turn);
         await FadeManager.instance.FadeIn();
@@ -43,6 +52,7 @@ public class BattlePhase : BasePhase
         List<BattleCharacterBase> inCharacterOrder = new List<BattleCharacterBase>(characterMax);
        
         for (int i = 0;i < characterMax; i++) {
+            //戦闘に参加するキャラクターを素早さ順にソート
             if(i >= players.Count)
                 inCharacterOrder.Add(enemies[i]);
 
@@ -89,17 +99,26 @@ public class BattlePhase : BasePhase
         await FadeManager.instance.FadeOut();
 
     }
-
+    /// <summary>
+    /// 解放処理
+    /// </summary>
+    /// <returns></returns>
     public override async UniTask Teardown() {
         await base.Teardown();
-
-        enemies.Clear();
     }
-
+    /// <summary>
+    /// 相対的を判定
+    /// </summary>
+    /// <param name="_source"></param>
+    /// <param name="_target"></param>
+    /// <returns></returns>
     private bool IsRelativeEnemy(BattleCharacterBase _source,BattleCharacterBase _target) {
         return _source.IsPlayer() !=  _target.IsPlayer();
     }
-
+    /// <summary>
+    /// プレイヤーが倒されたか判定
+    /// </summary>
+    /// <returns></returns>
     private bool IsPlayerTeamAllDead() {
         for (int i = 0, max = players.Count; i < max; i++) {
             //もし一人でも死んでいなければfalseを返す
@@ -109,6 +128,11 @@ public class BattlePhase : BasePhase
         }
         return true;
     }
+    /// <summary>
+    /// 敵を全て倒したか判定
+    /// </summary>
+    /// <param name="_enemyTeam"></param>
+    /// <returns></returns>
     private bool IsEnemiesTeamAllDead(List<BattleEnemy> _enemyTeam) {
         for (int i = 0, max = _enemyTeam.Count; i < max; i++) {
             if (!_enemyTeam[i].isDead) {
@@ -116,6 +140,22 @@ public class BattlePhase : BasePhase
             }
         }
         return true;
+    }
+    /// <summary>
+    /// 戦闘に参加するキャラクターを設定
+    /// </summary>
+    public static void SetCharacter(List<BattlePlayer> _playerParty,List<BattleEnemy> _battleEnemies) {
+        //一度戦闘に参加したキャラクターをリセット
+        players.Clear();
+        enemies.Clear();
+        for(int i = 0,max = _playerParty.Count; i < max; i++) {
+            players[i] = _playerParty[i];
+        }
+        for(int i = 0,max = _battleEnemies.Count; i < max; i++) {
+            enemies[i] = _battleEnemies[i];
+        }
+
+
     }
 }
 

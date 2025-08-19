@@ -11,7 +11,8 @@ public class FieldPlayer : FieldCharacterBase
     [SerializeField]
     private Action action = null;
     public PlayerAction playerAction = null;
-    
+
+    public List<BattlePlayer> myParty = null;
     void Start()
     {
         Initialize();
@@ -23,9 +24,12 @@ public class FieldPlayer : FieldCharacterBase
     }
     private void FixedUpdate() {
         rb.AddForce(moveDir * moveSpeed * 10f,ForceMode.Force);
+        
     }
 
     public override void Initialize() {
+        myParty.Add(new BattlePlayer());
+
         //インプットアクションを初期化
         action = InputSystemManager.instance.inputActions;
         //リジッドボディも初期化

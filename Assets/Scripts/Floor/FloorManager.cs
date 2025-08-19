@@ -7,10 +7,14 @@ using static CommonModule;
 using static GameEnum;
 
 public class FloorManager : MonoBehaviour{
+    public static FloorManager instance = null;
+
     private eFloorEndReason endReason = eFloorEndReason.Invalid;
     [SerializeField]
     private List<StageObject> stageObject = null;
     public async UniTask Initialize() {
+        instance = this;
+
         //ステージ上のオブジェクトが無ければ
         if (IsEmpty(stageObject))
             return;

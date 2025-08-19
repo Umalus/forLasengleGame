@@ -13,6 +13,8 @@ public class FieldEnemy : FieldCharacterBase
     private float SearchDistance = 0.0f;
     [SerializeField]
     private SphereCollider SearchCollider = null;
+
+    public List<BattleEnemy> myParty = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +49,11 @@ public class FieldEnemy : FieldCharacterBase
 
     private async void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
+            List<BattlePlayer> playerParty = new List<BattlePlayer>();
+            playerParty = collision.gameObject.GetComponent<FieldPlayer>().myParty;
+
+            BattlePhase.SetCharacter(playerParty, myParty);
+
             await MainGamePart.ChangeGamePhase(eGamePhase.Battle);
         }
     }
