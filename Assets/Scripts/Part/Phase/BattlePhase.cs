@@ -35,7 +35,8 @@ public class BattlePhase : BasePhase
     }
 
     public override async UniTask Execute() {
-        await Initialize();
+        gameObject.SetActive(turn);
+        await FadeManager.instance.FadeIn();
 
         //キャラクター全ての行動順を設定
         int characterMax = players.Count + enemies.Count;

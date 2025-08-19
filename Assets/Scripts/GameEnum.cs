@@ -26,5 +26,7 @@ public class GameEnum {
         Invalid = -1,
         Field,
         Battle,
+
+        PhaseMax,
     }
 }

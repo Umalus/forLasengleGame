@@ -3,22 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using static GameEnum;
+using static CommonModule;
 
 public class MainGamePart : BasePart {
 
-    private eGamePhase phase = eGamePhase.Invalid;
+    private static eGamePhase phase = eGamePhase.Invalid;
     [SerializeField]
     private List<BasePhase> phaseOrigin = null;
+
+    private static BasePhase[] basePhases = null;
     public override async UniTask Init() {
         await base.Init();
         await UniTask.CompletedTask;
     }
     public override async UniTask Setup() {
         await base.Setup();
+        basePhases = new BasePhase[(int)eGamePhase.PhaseMax];
+        List<UniTask> tasks = new List<UniTask>();
+
+        for(int i = 0 ,max = phaseOrigin.Count;i < max; i++) {
+            basePhases[i] = Instantiate(phaseOrigin[i],transform);
+            tasks.Add(basePhases[i].Initialize());
+        }
+
+        await WaitTask(tasks);
+
+        await ChangeGamePhase(eGamePhase.Field);
         await UniTask.CompletedTask;
     }
 
     public override async UniTask Execute() {
+        await FadeManager.instance.FadeIn();
         await UniTask.CompletedTask;
     }
 
@@ -27,17 +42,20 @@ public class MainGamePart : BasePart {
         await UniTask.CompletedTask;
     }
 
-    public async void ChangeGamePhase(eGamePhase _nextPhase) {
+    public static async UniTask ChangeGamePhase(eGamePhase _nextPhase) {
         phase = _nextPhase;
         switch (phase) {
             case eGamePhase.Field:
-                await phaseOrigin[(int)eGamePhase.Battle].Teardown();
-                await phaseOrigin[(int)eGamePhase.Field].Initialize();
+                await basePhases[(int)eGamePhase.Battle].Teardown();
+                await basePhases[(int)eGamePhase.Field].Initialize();
                 break;
             case eGamePhase.Battle:
-                await phaseOrigin[(int)eGamePhase.Field].Teardown();
-                await phaseOrigin[(int)eGamePhase.Battle].Initialize();
+                await basePhases[(int)eGamePhase.Field].Teardown();
+                await basePhases[(int)eGamePhase.Battle].Initialize();
                 break;
         }
+        await FadeManager.instance.FadeOut();
+
+        await basePhases[(int)phase].Execute();
     }
 }

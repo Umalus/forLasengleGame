@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+
+using static GameEnum;
 
 public class FieldEnemy : FieldCharacterBase
 {
@@ -14,6 +17,7 @@ public class FieldEnemy : FieldCharacterBase
     void Start()
     {
         SearchCollider.radius = SearchDistance;
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -33,9 +37,23 @@ public class FieldEnemy : FieldCharacterBase
                     Debug.DrawRay(transform.position, posDelta, Color.red, SearchDistance);
                     if (hit.collider == other) {
                         Debug.Log("Find!!");
+
+                        ChasePlayer(other.transform.position);
                     }
                 }
             }
         }
+    }
+
+    private async void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Player")) {
+            await MainGamePart.ChangeGamePhase(eGamePhase.Battle);
+        }
+    }
+
+    private void ChasePlayer(Vector3 _direction) {
+        transform.LookAt(_direction);
+
+        rb.AddForce(transform.forward * 10f);
     }
 }
