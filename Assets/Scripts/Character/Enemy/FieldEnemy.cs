@@ -18,6 +18,7 @@ public class FieldEnemy : FieldCharacterBase
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
         SearchCollider.radius = SearchDistance;
         rb = GetComponent<Rigidbody>();
     }
@@ -28,7 +29,11 @@ public class FieldEnemy : FieldCharacterBase
         
     }
 
-    private void OnTriggerStay(Collider other){
+    public override void Initialize() {
+        base.Initialize();
+    }
+
+    public void OnTriggerStay(Collider other){
         if (other.CompareTag("Player")) {
             Vector3 posDelta = other.transform.position - transform.position;
             
@@ -47,7 +52,7 @@ public class FieldEnemy : FieldCharacterBase
         }
     }
 
-    private async void OnCollisionEnter(Collision collision) {
+    public async void OnCollisionEnter(Collision collision){
         if (collision.gameObject.CompareTag("Player")) {
             List<BattlePlayer> playerParty = new List<BattlePlayer>();
             playerParty = collision.gameObject.GetComponent<FieldPlayer>().myParty;

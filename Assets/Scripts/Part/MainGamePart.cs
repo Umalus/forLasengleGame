@@ -19,14 +19,10 @@ public class MainGamePart : BasePart {
     public override async UniTask Setup() {
         await base.Setup();
         basePhases = new BasePhase[(int)eGamePhase.PhaseMax];
-        List<UniTask> tasks = new List<UniTask>();
-
+        
         for(int i = 0 ,max = phaseOrigin.Count;i < max; i++) {
             basePhases[i] = Instantiate(phaseOrigin[i],transform);
-            tasks.Add(basePhases[i].Initialize());
         }
-
-        await WaitTask(tasks);
 
         await ChangeGamePhase(eGamePhase.Field);
         await UniTask.CompletedTask;

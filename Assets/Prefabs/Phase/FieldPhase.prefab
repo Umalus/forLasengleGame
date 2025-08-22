@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2545191736419762936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1050085566258162446}
+  - component: {fileID: 8738572192558723150}
+  m_Layer: 0
+  m_Name: FloorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1050085566258162446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2545191736419762936}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2784961648595360203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8738572192558723150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2545191736419762936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7baaa6e6649cb47a0e3d640ae159ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageObject:
+  - {fileID: 7136247817680131020, guid: 30ba9da1e8849914c9caa4ee9c32e56b, type: 3}
+  - {fileID: 7647710013201629497, guid: 7f37252f4f4554c47a0a224156fdbc19, type: 3}
+  - {fileID: 8663646772071402930, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
+  ParentRoot: {fileID: 1050085566258162446}
 --- !u!1 &7258559873475507731
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +78,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1050085566258162446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-398181447023080827
@@ -44,5 +94,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef3d293d19b32640b48742fd7212a2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageObjects:
-  - {fileID: 8663646772071402930, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
+  floorManager: {fileID: 8738572192558723150}

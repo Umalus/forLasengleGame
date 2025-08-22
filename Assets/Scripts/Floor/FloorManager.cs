@@ -12,6 +12,9 @@ public class FloorManager : MonoBehaviour{
     private eFloorEndReason endReason = eFloorEndReason.Invalid;
     [SerializeField]
     private List<StageObject> stageObject = null;
+    [SerializeField]
+    private Transform ParentRoot = null;
+
     public async UniTask Initialize() {
         instance = this;
 
@@ -20,10 +23,12 @@ public class FloorManager : MonoBehaviour{
             return;
         List<UniTask> tasks = new List<UniTask>();
         for (int i = 0, max = stageObject.Count; i < max; i++) {
-            //もし壊されている(倒されている)なら
+            //もし壊されている(倒されている)なら処理を続ける
             if (stageObject[i].isBreak) continue;
 
-            tasks.Add(stageObject[i].SetUp());
+            //ステージ上のオブジェクトを生成
+            StageObject createObject = Instantiate(stageObject[i]);
+            tasks.Add(createObject.SetUp(ParentRoot));
         }
         await WaitTask(tasks);
     }

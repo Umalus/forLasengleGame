@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1849385560876746444
+--- !u!1 &1879521105630702349
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1464472541302211301}
-  - component: {fileID: -5445113424846378416}
+  - component: {fileID: 6044330043933027297}
+  - component: {fileID: 2616267716135530983}
   m_Layer: 0
-  m_Name: FloorManager
+  m_Name: CameraManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1464472541302211301
+--- !u!4 &6044330043933027297
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849385560876746444}
+  m_GameObject: {fileID: 1879521105630702349}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,20 +32,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5445113424846378416
+--- !u!114 &2616267716135530983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849385560876746444}
+  m_GameObject: {fileID: 1879521105630702349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e7baaa6e6649cb47a0e3d640ae159ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 54a15477f6588804e8ad5447e974900a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageObject:
-  - {fileID: 7136247817680131020, guid: 30ba9da1e8849914c9caa4ee9c32e56b, type: 3}
-  - {fileID: 7647710013201629497, guid: 7f37252f4f4554c47a0a224156fdbc19, type: 3}
-  - {fileID: 8663646772071402930, guid: 27f1e870d09e3e449930b63c18f803c1, type: 3}
-  ParentRoot: {fileID: 1464472541302211301}
+  mainCamera: {fileID: 0}
+  lerpTime: 4
+  param:
+    targetObj: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    angles: {x: 10, y: 0, z: 0}
+    distance: 0
+    offset: {x: 0, y: 0, z: -5}
+  parent: {fileID: 0}
+  child: {fileID: 0}
+  rotateSpeed: 1
+  UseMouse: 0

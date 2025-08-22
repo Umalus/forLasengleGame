@@ -10,6 +10,8 @@ public class FieldPhase : BasePhase
     private FloorManager floorManager = null;
     public override async UniTask Initialize() {
         await base.Initialize();
+        if (floorManager == null) await UniTask.CompletedTask;
+       
         await floorManager.Initialize();
 
     }

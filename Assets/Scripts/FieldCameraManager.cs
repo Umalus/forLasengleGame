@@ -2,12 +2,16 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
-public class CameraManager : MonoBehaviour {
+public class FieldCameraManager : MonoBehaviour {
+    public static FieldCameraManager instance = null;
+
     [Serializable]
     public class Paramater {
         [SerializeField, Header("追いかける対象")]
-        public GameObject targetObj = null;
+        public FieldCharacterBase targetObj = null;
         public Vector3 position;
         public Vector3 angles = new Vector3(10.0f, 0.0f, 0.0f);
         public float distance = 0.0f;
@@ -37,6 +41,10 @@ public class CameraManager : MonoBehaviour {
     //マウスかスマホかどうか(デバッグ用)
     [SerializeField]
     private bool UseMouse = false;
+    private void Awake() {
+        instance = this;
+    }
+
     private void Update() {
         //カメラを回転
         param.angles = RotateCamera();
@@ -183,5 +191,8 @@ public class CameraManager : MonoBehaviour {
 
     }
 
+    public void SetTarget(FieldCharacterBase _target) {
+        param.targetObj = _target;
+    }
 
 }

@@ -5,8 +5,7 @@ using UnityEngine;
 
 using static CommonModule;
 
-public class BattlePhase : BasePhase
-{
+public class BattlePhase : BasePhase {
     //プレイヤーを配置する親オブジェクトの位置
     [SerializeField]
     private Transform playersRoot = null;
@@ -16,10 +15,10 @@ public class BattlePhase : BasePhase
 
     //戦闘に参加しているプレイヤー
     [SerializeField]
-    private static List<BattlePlayer> players = null;
+    private static List<BattlePlayer> players = new List<BattlePlayer>();
     //戦闘に参加している敵
     [SerializeField]
-    private static List<BattleEnemy> enemies = null;
+    private static List<BattleEnemy> enemies = new List<BattleEnemy>();
 
     private int allAddExp = -1;
     private bool turn = true;
@@ -28,12 +27,14 @@ public class BattlePhase : BasePhase
     /// </summary>
     /// <returns></returns>
     override public async UniTask Initialize() {
+        if (players == null || enemies == null) await UniTask.CompletedTask;
+
         allAddExp = 0;
         for(int i = 0,max = players.Count;i < max; i++) {
-            players[i].transform.SetParent(playersRoot);
+            BattlePlayer createObject = Instantiate(players[i], playersRoot);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
-            enemies[i].transform.SetParent(enemiesRoot);
+            BattleEnemy createObject = Instantiate(enemies[i], enemiesRoot);
             allAddExp += enemies[i].exp;
         }
         
@@ -53,9 +54,7 @@ public class BattlePhase : BasePhase
        
         for (int i = 0;i < characterMax; i++) {
             //戦闘に参加するキャラクターを素早さ順にソート
-            if(i >= players.Count)
-                inCharacterOrder.Add(enemies[i]);
-
+            inCharacterOrder.Add(enemies[i]);
             inCharacterOrder.Add(players[i]);
         }
 
@@ -146,13 +145,15 @@ public class BattlePhase : BasePhase
     /// </summary>
     public static void SetCharacter(List<BattlePlayer> _playerParty,List<BattleEnemy> _battleEnemies) {
         //一度戦闘に参加したキャラクターをリセット
+        if(!IsEmpty(players))
         players.Clear();
+        if(!IsEmpty(enemies))
         enemies.Clear();
         for(int i = 0,max = _playerParty.Count; i < max; i++) {
-            players[i] = _playerParty[i];
+            players.Add(_playerParty[i]);
         }
         for(int i = 0,max = _battleEnemies.Count; i < max; i++) {
-            enemies[i] = _battleEnemies[i];
+            enemies.Add(_battleEnemies[i]);
         }
 
 

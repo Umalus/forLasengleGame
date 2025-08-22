@@ -28,7 +28,9 @@ public class FieldPlayer : FieldCharacterBase
     }
 
     public override void Initialize() {
-        myParty.Add(new BattlePlayer());
+        base.Initialize();
+
+        FieldCameraManager.instance.SetTarget(this);
 
         //インプットアクションを初期化
         action = InputSystemManager.instance.inputActions;
