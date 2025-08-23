@@ -33,7 +33,7 @@ public abstract class BattleCharacterBase : MonoBehaviour
     public virtual void Initilized(int _ID,int _masterID) {
         ID = _ID;
         masterID = _masterID;
-        var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
+        var characterMaster = CharacterMasterUtility.GetCharacterMaster(ID);
         SetMaster(characterMaster);
     }
 

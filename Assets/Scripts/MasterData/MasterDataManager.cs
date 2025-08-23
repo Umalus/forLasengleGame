@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-public class MasterDataManager : MonoBehaviour
-{
+public class MasterDataManager{
     private static readonly string _DATA_PATH = "MasterData/";
 
     public static List<List<Entity_CharacterStatus.Param>> characterStatus = null;

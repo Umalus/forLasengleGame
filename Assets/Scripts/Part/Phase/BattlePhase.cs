@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using static CommonModule;
+using static GameEnum;
 
 public class BattlePhase : BasePhase {
     //プレイヤーを配置する親オブジェクトの位置
@@ -32,9 +33,11 @@ public class BattlePhase : BasePhase {
         allAddExp = 0;
         for(int i = 0,max = players.Count;i < max; i++) {
             BattlePlayer createObject = Instantiate(players[i], playersRoot);
+            createObject.Initilized(i,0);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
             BattleEnemy createObject = Instantiate(enemies[i], enemiesRoot);
+            createObject.Initilized(i + players.Count,0);
             allAddExp += enemies[i].exp;
         }
         
@@ -54,19 +57,21 @@ public class BattlePhase : BasePhase {
        
         for (int i = 0;i < characterMax; i++) {
             //戦闘に参加するキャラクターを素早さ順にソート
-            inCharacterOrder.Add(enemies[i]);
-            inCharacterOrder.Add(players[i]);
+            if(i >= players.Count)
+                inCharacterOrder.Add(enemies[i % players.Count]);
+            else
+                inCharacterOrder.Add(players[i]);
         }
 
         inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
         int pastTurn = 0;
         //敵か味方が全滅するまでループ
-        while (IsPlayerTeamAllDead() || IsEnemiesTeamAllDead(enemies)) {
+        while (!IsPlayerTeamAllDead() || !IsEnemiesTeamAllDead(enemies)) {
             //turnが自分のキャラクターなら
             if (turn) {
                 //プレイヤーの行動を選択
-                await inCharacterOrder[pastTurn].GetComponent<FieldPlayer>().playerAction.Order();
+                await inCharacterOrder[pastTurn].GetComponent<BattlePlayer>().playerAction.Order();
             }
             //turnが敵のキャラなら
             else {
@@ -96,7 +101,7 @@ public class BattlePhase : BasePhase {
         }
         //フェードアウト
         await FadeManager.instance.FadeOut();
-
+        await MainGamePart.ChangeGamePhase(eGamePhase.Field);
     }
     /// <summary>
     /// 解放処理

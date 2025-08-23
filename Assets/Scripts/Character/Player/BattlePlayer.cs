@@ -8,10 +8,10 @@ using System.Threading;
 public class BattlePlayer : BattleCharacterBase
 {
     public Button normalAttackButton = null;
-    public PlayerAction action = null;
+    public PlayerAction playerAction = null;
     public override void Initilized(int _ID, int _masterID) {
         base.Initilized(_ID, _masterID);
-        action = new PlayerAction();
+        playerAction = new PlayerAction();
     }
 
     public override bool IsPlayer() {
@@ -21,6 +21,6 @@ public class BattlePlayer : BattleCharacterBase
 
         var buttonEvent = normalAttackButton.onClick.GetAsyncEventHandler(CancellationToken.None);
         await buttonEvent.OnInvokeAsync();
-        await action.NormalAttack();
+        await playerAction.NormalAttack();
     }
 }
