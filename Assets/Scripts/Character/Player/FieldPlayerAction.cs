@@ -11,9 +11,8 @@ using UnityEngine.InputSystem;
 using static CommonModule;
 
 
-public class PlayerAction{
+public class FieldPlayerAction{
     public FieldPlayer operatePlayer = null;
-    public BattlePlayer battlePlayer = null;
     //private bool isNormalAttack = false;
     public void OnMovePerformed(InputAction.CallbackContext _callback) {
         
@@ -33,16 +32,5 @@ public class PlayerAction{
         
     }
 
-    //バトル中の行動選択
-    public async UniTask Order() {
-        while (true) {
-            if (await NormalAttack())
-                break;
-        }
-    }
-
-    public async UniTask<bool> NormalAttack() {
-        await UniTask.CompletedTask;
-        return true;
-    }
+    
 }

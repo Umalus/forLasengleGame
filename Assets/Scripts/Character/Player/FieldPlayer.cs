@@ -10,7 +10,7 @@ public class FieldPlayer : FieldCharacterBase
     public bool isBattle { get; private set; } = false;
     [SerializeField]
     private Action action = null;
-    public PlayerAction playerAction = null;
+    public FieldPlayerAction playerAction = null;
 
     public List<BattlePlayer> myParty = null;
     void Start()
@@ -38,7 +38,7 @@ public class FieldPlayer : FieldCharacterBase
         rb = GetComponent<Rigidbody>();
         //プレイヤーのアクション群も初期化
         if(playerAction == null)
-            playerAction = new PlayerAction();
+            playerAction = new FieldPlayerAction();
 
         playerAction.operatePlayer = this;
 

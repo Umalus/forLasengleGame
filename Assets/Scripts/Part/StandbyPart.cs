@@ -7,6 +7,8 @@ using UnityEngine;
 public class StandbyPart : BasePart
 {
     public override async UniTask Execute() {
+        MasterDataManager.LoadAllData();
+
         await FadeManager.instance.FadeOut();
 
 

@@ -7,20 +7,14 @@ using System.Threading;
 
 public class BattlePlayer : BattleCharacterBase
 {
-    public Button normalAttackButton = null;
-    public PlayerAction playerAction = null;
+    public static Button normalAttackButton = null;
+    public BattlePlayerAction playerAction = null;
     public override void Initilized(int _ID, int _masterID) {
         base.Initilized(_ID, _masterID);
-        playerAction = new PlayerAction();
+        playerAction = new BattlePlayerAction();
     }
 
     public override bool IsPlayer() {
         return true;
-    }
-    private async UniTask NormalAttack() {
-
-        var buttonEvent = normalAttackButton.onClick.GetAsyncEventHandler(CancellationToken.None);
-        await buttonEvent.OnInvokeAsync();
-        await playerAction.NormalAttack();
     }
 }

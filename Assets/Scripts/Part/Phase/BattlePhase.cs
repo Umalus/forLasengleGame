@@ -14,12 +14,17 @@ public class BattlePhase : BasePhase {
     [SerializeField]
     private Transform enemiesRoot = null;
 
+    [SerializeField]
+    UIBattle battleCanvas = null;
+
     //戦闘に参加しているプレイヤー
     [SerializeField]
     private static List<BattlePlayer> players = new List<BattlePlayer>();
     //戦闘に参加している敵
     [SerializeField]
     private static List<BattleEnemy> enemies = new List<BattleEnemy>();
+
+    private List<BattleCharacterBase> inCharacterOrder = null;
 
     private int allAddExp = -1;
     private bool turn = true;
@@ -29,18 +34,25 @@ public class BattlePhase : BasePhase {
     /// <returns></returns>
     override public async UniTask Initialize() {
         if (players == null || enemies == null) await UniTask.CompletedTask;
+        //キャラクター全ての行動順を設定
+        int characterMax = players.Count + enemies.Count;
+        inCharacterOrder = new List<BattleCharacterBase>(characterMax);
 
         allAddExp = 0;
         for(int i = 0,max = players.Count;i < max; i++) {
             BattlePlayer createObject = Instantiate(players[i], playersRoot);
-            createObject.Initilized(i,0);
+            createObject.Initilized(i,i);
+            inCharacterOrder.Add(createObject);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
             BattleEnemy createObject = Instantiate(enemies[i], enemiesRoot);
-            createObject.Initilized(i + players.Count,0);
+            createObject.Initilized(i + players.Count, i + players.Count);
+            inCharacterOrder.Add(createObject);
             allAddExp += enemies[i].exp;
         }
-        
+
+        await battleCanvas.Open();
+
         await UniTask.CompletedTask;
     }
     /// <summary>
@@ -51,17 +63,7 @@ public class BattlePhase : BasePhase {
         gameObject.SetActive(turn);
         await FadeManager.instance.FadeIn();
 
-        //キャラクター全ての行動順を設定
-        int characterMax = players.Count + enemies.Count;
-        List<BattleCharacterBase> inCharacterOrder = new List<BattleCharacterBase>(characterMax);
-       
-        for (int i = 0;i < characterMax; i++) {
-            //戦闘に参加するキャラクターを素早さ順にソート
-            if(i >= players.Count)
-                inCharacterOrder.Add(enemies[i % players.Count]);
-            else
-                inCharacterOrder.Add(players[i]);
-        }
+        
 
         inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
@@ -85,7 +87,7 @@ public class BattlePhase : BasePhase {
                 turn ^= true;
             //経過ターンを一つ進め、キャラクターの数を超えたらリセット
             pastTurn++;
-            if(pastTurn > characterMax)
+            if(pastTurn > inCharacterOrder.Count)
                 pastTurn = 0;
         }
 
