@@ -10,11 +10,11 @@ using static CommonModule;
 
 public class ActionRange001_Solo : ActionRangeBase
 {
-    
     public override void Execute(BattleCharacterBase _targetCharacter) {
         //リストを初期化
-        InitializeList(ref targetIDList);
+        InitializeList(ref targetList);
         //対象リストに追加
-        targetIDList.Add(_targetCharacter.ID);
+        if(_targetCharacter.isSelect)
+        targetList.Add(_targetCharacter);
     }
 }

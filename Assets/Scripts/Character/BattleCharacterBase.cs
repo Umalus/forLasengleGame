@@ -6,9 +6,14 @@ using UnityEngine;
 
 public abstract class BattleCharacterBase : MonoBehaviour
 {
+    //キャラクターのID
     public int ID { get; private set; } = -1;
+    //マスターID
     public int masterID { get; protected set; } = -1;
+    //死亡判定
     public bool isDead { get; protected set; } = false;
+    //対象に選ばれているか
+    public bool isSelect { get; protected set; } = false;
 
     //マスターデータ依存のステータス
     public int HP { get; protected set; } = -1;
@@ -63,6 +68,10 @@ public abstract class BattleCharacterBase : MonoBehaviour
     }public void SetMaxMP(int _maxMP) {
         MaxMP = _maxMP;
     }
+
+    public void RemoveHP(int _damage) {
+        SetHP(HP - _damage);
+    }
     public void SetMP(int _MP) {
         MP = _MP;
     }public void SetRawAttack(int _attack) {
@@ -102,5 +111,9 @@ public abstract class BattleCharacterBase : MonoBehaviour
 
     public int GetTarget() {
         return ID;
+    }
+
+    public void SetIsSelect(bool _isSelect) {
+        isSelect = _isSelect;
     }
 }

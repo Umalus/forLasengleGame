@@ -72,8 +72,9 @@ public class BattlePhase : BasePhase {
         while (!IsPlayerTeamAllDead() || !IsEnemiesTeamAllDead(enemies)) {
             //turnが自分のキャラクターなら
             if (turn) {
+                BattleCharacterBase actionCharacter = inCharacterOrder[pastTurn];
                 //プレイヤーの行動を選択
-                await inCharacterOrder[pastTurn].GetComponent<BattlePlayer>().playerAction.Order();
+                await inCharacterOrder[pastTurn].GetComponent<BattlePlayer>().playerAction.Order(enemies,actionCharacter);
             }
             //turnが敵のキャラなら
             else {

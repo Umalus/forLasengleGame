@@ -5,20 +5,37 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static CommonModule;
+
 public class BattlePlayerAction{
 
     //バトル中の行動選択
-    public async UniTask Order() {
+    public async UniTask Order(List<BattleEnemy> _enemies,BattleCharacterBase _source) {
+        if (IsEmpty(_enemies)) return;
+
         while (true) {
-            if (await NormalAttack())
+            if (await NormalAttack(_enemies,_source))
                 break;
         }
     }
-
-    private async UniTask<bool> NormalAttack() {
-
+    
+    /// <summary>
+    /// 通常攻撃
+    /// </summary>
+    /// <returns></returns>
+    private async UniTask<bool> NormalAttack(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
+        //対象のボタンが押されたかどうか判定
         var buttonEvent = BattlePlayer.normalAttackButton.onClick.GetAsyncEventHandler(CancellationToken.None);
         await buttonEvent.OnInvokeAsync();
+
+        int damage = Random.Range(_source.rawAttack - 5, _source.rawAttack);
+
+        for(int i = 0,max = _enemies.Count;i < max; i++) {
+            BattleCharacterBase target = _enemies[i];
+
+            target.RemoveHP(damage);
+        }
+
         return true;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ActionRangeBase{
-    public List<int> targetIDList = null;
+    public List<BattleCharacterBase> targetList = null;
 
-    public abstract void Execute(BattleCharacterBase _sourceCharacter);
+    public abstract void Execute(BattleCharacterBase _targetCharacter);
 }
