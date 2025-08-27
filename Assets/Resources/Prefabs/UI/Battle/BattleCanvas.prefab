@@ -385,6 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UIRoot: {fileID: 7416133145364095957}
+  normalAttackButton: {fileID: 5460510510963671576}
 --- !u!1 &7416133145364095957
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,8 +32,11 @@ public class BattlePlayerAction{
 
         for(int i = 0,max = _enemies.Count;i < max; i++) {
             BattleCharacterBase target = _enemies[i];
+            if (!target.isSelect) continue;
+
 
             target.RemoveHP(damage);
+            Debug.Log("“G‚ÌHP" + target.HP);
         }
 
         return true;

@@ -115,5 +115,6 @@ public abstract class BattleCharacterBase : MonoBehaviour
 
     public void SetIsSelect(bool _isSelect) {
         isSelect = _isSelect;
+        Debug.Log("select!! : " + isSelect);
     }
 }

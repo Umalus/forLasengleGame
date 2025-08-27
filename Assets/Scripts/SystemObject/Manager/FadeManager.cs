@@ -29,6 +29,7 @@ public class FadeManager : SystemObject
     /// <returns></returns>
     public async UniTask FadeIn(float _duration = DURTION_TIME) {
         await ExecuteFade(0.0f, _duration);
+        fadeImage.enabled = false;
     }
     /// <summary>
     /// フェードアウト処理
@@ -36,6 +37,7 @@ public class FadeManager : SystemObject
     /// <param name="_duration"></param>
     /// <returns></returns>
     public async UniTask FadeOut(float _duration = DURTION_TIME) {
+        fadeImage.enabled = true;
         await ExecuteFade(1.0f, _duration);
     }
     /// <summary>

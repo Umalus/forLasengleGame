@@ -11,5 +11,7 @@ public class UIBattle : UIBase{
         await base.Open();
 
         BattlePlayer.normalAttackButton = normalAttackButton;
+
+        
     }
 }

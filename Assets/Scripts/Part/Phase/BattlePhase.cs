@@ -27,7 +27,7 @@ public class BattlePhase : BasePhase {
     private List<BattleCharacterBase> inCharacterOrder = null;
 
     private int allAddExp = -1;
-    private bool turn = true;
+    public bool turn { get; private set; } = true;
     /// <summary>
     /// 
     /// </summary>
@@ -40,15 +40,13 @@ public class BattlePhase : BasePhase {
 
         allAddExp = 0;
         for(int i = 0,max = players.Count;i < max; i++) {
-            BattlePlayer createObject = Instantiate(players[i], playersRoot);
-            createObject.Initilized(i,i);
-            inCharacterOrder.Add(createObject);
+            inCharacterOrder.Add(Instantiate(players[i], playersRoot));
+            inCharacterOrder[i].Initilized(i, i);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
-            BattleEnemy createObject = Instantiate(enemies[i], enemiesRoot);
-            createObject.Initilized(i + players.Count, i + players.Count);
-            inCharacterOrder.Add(createObject);
-            allAddExp += enemies[i].exp;
+            inCharacterOrder.Add(Instantiate(enemies[i], enemiesRoot));
+            inCharacterOrder[i + players.Count].Initilized(4, 4);
+            allAddExp += inCharacterOrder[i + players.Count].exp;
         }
 
         await battleCanvas.Open();
@@ -65,16 +63,16 @@ public class BattlePhase : BasePhase {
 
         
 
-        inCharacterOrder.Sort((a,b) => b.speed - a.speed);
+        //inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
         int pastTurn = 0;
         //敵か味方が全滅するまでループ
         while (!IsPlayerTeamAllDead() || !IsEnemiesTeamAllDead(enemies)) {
             //turnが自分のキャラクターなら
             if (turn) {
-                BattleCharacterBase actionCharacter = inCharacterOrder[pastTurn];
+                BattleCharacterBase actionCharacter = inCharacterOrder[pastTurn % inCharacterOrder.Count];
                 //プレイヤーの行動を選択
-                await inCharacterOrder[pastTurn].GetComponent<BattlePlayer>().playerAction.Order(enemies,actionCharacter);
+                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies,actionCharacter);
             }
             //turnが敵のキャラなら
             else {
@@ -84,12 +82,10 @@ public class BattlePhase : BasePhase {
             }
 
             //ターンを変更
-            if (IsRelativeEnemy(inCharacterOrder[pastTurn], inCharacterOrder[pastTurn + 1]))
+            if (IsRelativeEnemy(inCharacterOrder[pastTurn % inCharacterOrder.Count], inCharacterOrder[(pastTurn + 1) % inCharacterOrder.Count]))
                 turn ^= true;
             //経過ターンを一つ進め、キャラクターの数を超えたらリセット
             pastTurn++;
-            if(pastTurn > inCharacterOrder.Count)
-                pastTurn = 0;
         }
 
         await Teardown();
