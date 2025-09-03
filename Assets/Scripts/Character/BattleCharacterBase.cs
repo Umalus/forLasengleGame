@@ -27,8 +27,6 @@ public abstract class BattleCharacterBase : MonoBehaviour
     public int exp { get; protected set; } = 0;
     public int addExp { get; protected set; } = -1;
     public int lv { get; protected set; } = -1;
-
-
     public int speed { get; protected set; } = -1;
     protected enum CharacterState {
         Invalid = -1,

@@ -8,11 +8,10 @@ using static GameEnum;
 
 public class BattlePhase : BasePhase {
     //プレイヤーを配置する親オブジェクトの位置
-    [SerializeField]
-    private Transform playersRoot = null;
+    private static Transform playerRoot;
     //敵を配置する親オブジェクトの位置
     [SerializeField]
-    private Transform enemiesRoot = null;
+    private static Transform enemyRoot;
 
     [SerializeField]
     UIBattle battleCanvas = null;
@@ -28,6 +27,11 @@ public class BattlePhase : BasePhase {
 
     private int allAddExp = -1;
     public bool isPlayerTurn { get; private set; } = true;
+    private void Awake() {
+        playerRoot = GameObject.Find("PlayerRoot").transform;
+        enemyRoot = GameObject.Find("EnemyRoot").transform;
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -40,12 +44,10 @@ public class BattlePhase : BasePhase {
 
         allAddExp = 0;
         for(int i = 0,max = players.Count;i < max; i++) {
-            inCharacterOrder.Add(Instantiate(players[i], playersRoot));
-            inCharacterOrder[i].Initilized(i, i);
+            inCharacterOrder.Add(players[i]);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
-            inCharacterOrder.Add(Instantiate(enemies[i], enemiesRoot));
-            inCharacterOrder[i + players.Count].Initilized(4, 4);
+            inCharacterOrder.Add(enemies[i]);
             allAddExp += inCharacterOrder[i + players.Count].exp;
         }
 
@@ -76,6 +78,7 @@ public class BattlePhase : BasePhase {
             }
             //turnが敵のキャラなら
             else {
+                Debug.Log("zzz");
                 //エネミーが行動を選択
                 await UniTask.CompletedTask;
 
@@ -154,10 +157,12 @@ public class BattlePhase : BasePhase {
         if(!IsEmpty(enemies))
         enemies.Clear();
         for(int i = 0,max = _playerParty.Count; i < max; i++) {
-            players.Add(_playerParty[i]);
+            players.Add(Instantiate(_playerParty[i],playerRoot));
+            players[i].Initilized(i,i);
         }
         for(int i = 0,max = _battleEnemies.Count; i < max; i++) {
-            enemies.Add(_battleEnemies[i]);
+            enemies.Add(Instantiate(_battleEnemies[i], enemyRoot));
+            enemies[i].Initilized(_playerParty.Count + i, _playerParty.Count + 1);
         }
 
 

@@ -35,18 +35,15 @@ public class FieldEnemy : FieldCharacterBase {
             Vector3 posDelta = other.transform.position - transform.position;
 
             float angle = Vector3.Angle(transform.forward, posDelta);
+            //ŽZo‚µ‚½Šp“x‚ªŽw’è‚ÌŠp“x‚ð’´‚¦‚Ä‚¢‚½‚çreturn
             if (angle >= SearchAngle) return;
-
-            if (Physics.Raycast(transform.position, posDelta, out RaycastHit hit, SearchDistance)) {
-                Debug.DrawRay(transform.position, posDelta, Color.red, SearchDistance);
-                if (hit.collider == other) {
-                    Debug.Log("Find!!");
-
-                    ChasePlayer(other.transform.position);
-                }
+            //Ray‚ª“–‚½‚ç‚È‚¯‚ê‚Îreturn
+            if (!Physics.Raycast(transform.position, posDelta, out RaycastHit hit, SearchDistance)) return;
+            Debug.DrawRay(transform.position, posDelta, Color.red, SearchDistance);
+            if (hit.collider == other) {
+                Debug.Log("Find!!");
+                ChasePlayer(other.transform.position);
             }
-
-
         }
     }
 
