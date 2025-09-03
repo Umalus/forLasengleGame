@@ -5,8 +5,7 @@ using UnityEngine;
 
 using static GameEnum;
 
-public class FieldEnemy : FieldCharacterBase
-{
+public class FieldEnemy : FieldCharacterBase {
     [SerializeField]
     private float SearchAngle = 0.0f;
     [SerializeField]
@@ -16,43 +15,42 @@ public class FieldEnemy : FieldCharacterBase
 
     public List<BattleEnemy> myParty = null;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         Initialize();
         SearchCollider.radius = SearchDistance;
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+
     }
 
     public override void Initialize() {
         base.Initialize();
     }
 
-    public void OnTriggerStay(Collider other){
+    public void OnTriggerStay(Collider other) {
         if (other.CompareTag("Player")) {
             Vector3 posDelta = other.transform.position - transform.position;
-            
-            float angle = Vector3.Angle(transform.forward, posDelta);
-            if(angle < SearchAngle) {
-                
-                if (Physics.Raycast(transform.position,posDelta,out RaycastHit hit,SearchDistance)) {
-                    Debug.DrawRay(transform.position, posDelta, Color.red, SearchDistance);
-                    if (hit.collider == other) {
-                        Debug.Log("Find!!");
 
-                        ChasePlayer(other.transform.position);
-                    }
+            float angle = Vector3.Angle(transform.forward, posDelta);
+            if (angle >= SearchAngle) return;
+
+            if (Physics.Raycast(transform.position, posDelta, out RaycastHit hit, SearchDistance)) {
+                Debug.DrawRay(transform.position, posDelta, Color.red, SearchDistance);
+                if (hit.collider == other) {
+                    Debug.Log("Find!!");
+
+                    ChasePlayer(other.transform.position);
                 }
             }
+
+
         }
     }
 
-    public async void OnCollisionEnter(Collision collision){
+    public async void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
             List<BattlePlayer> playerParty = new List<BattlePlayer>();
             playerParty = collision.gameObject.GetComponent<FieldPlayer>().myParty;

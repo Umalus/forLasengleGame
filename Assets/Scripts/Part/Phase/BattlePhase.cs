@@ -27,7 +27,7 @@ public class BattlePhase : BasePhase {
     private List<BattleCharacterBase> inCharacterOrder = null;
 
     private int allAddExp = -1;
-    public bool turn { get; private set; } = true;
+    public bool isPlayerTurn { get; private set; } = true;
     /// <summary>
     /// 
     /// </summary>
@@ -58,19 +58,19 @@ public class BattlePhase : BasePhase {
     /// </summary>
     /// <returns></returns>
     public override async UniTask Execute() {
-        gameObject.SetActive(turn);
+        gameObject.SetActive(isPlayerTurn);
         await FadeManager.instance.FadeIn();
 
         
 
         //inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
-        int pastTurn = 0;
+        int currentTurn = 0;
         //敵か味方が全滅するまでループ
         while (!IsPlayerTeamAllDead() || !IsEnemiesTeamAllDead(enemies)) {
             //turnが自分のキャラクターなら
-            if (turn) {
-                BattleCharacterBase actionCharacter = inCharacterOrder[pastTurn % inCharacterOrder.Count];
+            if (isPlayerTurn) {
+                BattleCharacterBase actionCharacter = inCharacterOrder[currentTurn % inCharacterOrder.Count];
                 //プレイヤーの行動を選択
                 await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies,actionCharacter);
             }
@@ -82,10 +82,10 @@ public class BattlePhase : BasePhase {
             }
 
             //ターンを変更
-            if (IsRelativeEnemy(inCharacterOrder[pastTurn % inCharacterOrder.Count], inCharacterOrder[(pastTurn + 1) % inCharacterOrder.Count]))
-                turn ^= true;
+            if (IsRelativeEnemy(inCharacterOrder[currentTurn % inCharacterOrder.Count], inCharacterOrder[(currentTurn + 1) % inCharacterOrder.Count]))
+                isPlayerTurn = !isPlayerTurn;
             //経過ターンを一つ進め、キャラクターの数を超えたらリセット
-            pastTurn++;
+            currentTurn++;
         }
 
         await Teardown();

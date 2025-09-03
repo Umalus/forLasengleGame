@@ -14,16 +14,17 @@ public class MainGamePart : BasePart {
     private static BasePhase[] basePhases = null;
     public override async UniTask Init() {
         await base.Init();
+        basePhases = new BasePhase[(int)eGamePhase.PhaseMax];
+
+        for (int i = 0, max = phaseOrigin.Count; i < max; i++) {
+            basePhases[i] = Instantiate(phaseOrigin[i], transform);
+        }
+
         await UniTask.CompletedTask;
     }
     public override async UniTask Setup() {
         await base.Setup();
-        basePhases = new BasePhase[(int)eGamePhase.PhaseMax];
         
-        for(int i = 0 ,max = phaseOrigin.Count;i < max; i++) {
-            basePhases[i] = Instantiate(phaseOrigin[i],transform);
-        }
-
         await ChangeGamePhase(eGamePhase.Field);
         await UniTask.CompletedTask;
     }
@@ -35,6 +36,9 @@ public class MainGamePart : BasePart {
 
     public override async UniTask Teardown() {
         await base.Teardown();
+        for (int i = 0, max = basePhases.Length; i < max; i++) {
+            Destroy(basePhases[i]);
+        }
         await UniTask.CompletedTask;
     }
 
