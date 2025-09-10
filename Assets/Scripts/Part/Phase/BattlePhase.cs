@@ -25,15 +25,16 @@ public class BattlePhase : BasePhase {
 
     private List<BattleCharacterBase> inCharacterOrder = null;
 
+    public static GameObject fieldEnemy = null;
+
     private int allAddExp = -1;
     public bool isPlayerTurn { get; private set; } = true;
     private void Awake() {
         playerRoot = GameObject.Find("PlayerRoot").transform;
         enemyRoot = GameObject.Find("EnemyRoot").transform;
     }
-
     /// <summary>
-    /// 
+    /// 初期化処理
     /// </summary>
     /// <returns></returns>
     override public async UniTask Initialize() {
@@ -60,7 +61,7 @@ public class BattlePhase : BasePhase {
     /// </summary>
     /// <returns></returns>
     public override async UniTask Execute() {
-        gameObject.SetActive(isPlayerTurn);
+        gameObject.SetActive(true);
         await FadeManager.instance.FadeIn();
 
         
@@ -68,8 +69,9 @@ public class BattlePhase : BasePhase {
         //inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
         int currentTurn = 0;
+        bool battleEnd = false;
         //敵か味方が全滅するまでループ
-        while (!IsPlayerTeamAllDead() || !IsEnemiesTeamAllDead(enemies)) {
+        while (!battleEnd) {
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
                 BattleCharacterBase actionCharacter = inCharacterOrder[currentTurn % inCharacterOrder.Count];
@@ -83,6 +85,12 @@ public class BattlePhase : BasePhase {
                 await UniTask.CompletedTask;
 
             }
+            battleEnd = IsPlayerTeamAllDead();
+            if (battleEnd)
+                continue;
+            battleEnd = IsEnemiesTeamAllDead(enemies);
+            if (battleEnd)
+                continue;
 
             //ターンを変更
             if (IsRelativeEnemy(inCharacterOrder[currentTurn % inCharacterOrder.Count], inCharacterOrder[(currentTurn + 1) % inCharacterOrder.Count]))
@@ -90,11 +98,12 @@ public class BattlePhase : BasePhase {
             //経過ターンを一つ進め、キャラクターの数を超えたらリセット
             currentTurn++;
         }
+        //戦闘終了後処理
 
-        await Teardown();
-        
         //敵側が全滅なら
         if(IsEnemiesTeamAllDead(enemies)) {
+            fieldEnemy.GetComponent<StageObject>().isBreak = true;
+
             List<UniTask> tasks = new List<UniTask>();
             for(int i = 0,max = players.Count; i < max; i++) {
                 tasks.Add(players[i].AddExp(allAddExp));
@@ -140,6 +149,7 @@ public class BattlePhase : BasePhase {
     /// <param name="_enemyTeam"></param>
     /// <returns></returns>
     private bool IsEnemiesTeamAllDead(List<BattleEnemy> _enemyTeam) {
+        //for文で確認
         for (int i = 0, max = _enemyTeam.Count; i < max; i++) {
             if (!_enemyTeam[i].isDead) {
                 return false;

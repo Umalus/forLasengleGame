@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isBreak: 0
   startPos: {x: 0, y: 2, z: 10}
+  fieldCharacter: {fileID: 9069781004732036501}
 --- !u!114 &9069781004732036501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +166,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   moveDir: {x: 0, y: 0, z: 0}
-  SetRoot: {fileID: 1464472541302211301, guid: f9de7ab642287c146b88132dd375d4da, type: 3}
   myParty:
   - {fileID: 6579999417975817913, guid: d47fd6ed1c7ab0041b5bf89646f7f636, type: 3}

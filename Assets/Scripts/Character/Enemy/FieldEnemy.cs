@@ -53,7 +53,8 @@ public class FieldEnemy : FieldCharacterBase {
             playerParty = collision.gameObject.GetComponent<FieldPlayer>().myParty;
 
             BattlePhase.SetCharacter(playerParty, myParty);
-
+            BattlePhase.fieldEnemy = gameObject;
+            Destroy(this);
             await MainGamePart.ChangeGamePhase(eGamePhase.Battle);
         }
     }

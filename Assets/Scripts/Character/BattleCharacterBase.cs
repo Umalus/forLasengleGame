@@ -10,8 +10,6 @@ public abstract class BattleCharacterBase : MonoBehaviour
     public int ID { get; private set; } = -1;
     //マスターID
     public int masterID { get; protected set; } = -1;
-    //死亡判定
-    public bool isDead { get; protected set; } = false;
     //対象に選ばれているか
     public bool isSelect { get; protected set; } = false;
 
@@ -28,6 +26,9 @@ public abstract class BattleCharacterBase : MonoBehaviour
     public int addExp { get; protected set; } = -1;
     public int lv { get; protected set; } = -1;
     public int speed { get; protected set; } = -1;
+    //死亡判定
+    public bool isDead { get { return HP <= 0; } }
+
     protected enum CharacterState {
         Invalid = -1,
         Field,

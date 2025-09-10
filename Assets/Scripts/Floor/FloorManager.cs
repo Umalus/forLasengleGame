@@ -1,7 +1,5 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using static CommonModule;
 using static GameEnum;
@@ -12,32 +10,51 @@ public class FloorManager : MonoBehaviour{
     private eFloorEndReason endReason = eFloorEndReason.Invalid;
     [SerializeField]
     private List<StageObject> stageObject = null;
+
+    private List<StageObject> copyObjects = null;
+
+    private const int maxStageObject = 5;
     [SerializeField]
     private Transform ParentRoot = null;
+    [SerializeField]
+    private Transform DeadRoot = null;
 
-    public async UniTask Initialize() {
+    public async UniTask Setup() {
         instance = this;
 
         //ステージ上のオブジェクトが無ければ
         if (IsEmpty(stageObject))
             return;
-        List<UniTask> tasks = new List<UniTask>();
-        for (int i = 0, max = stageObject.Count; i < max; i++) {
-            //もし壊されている(倒されている)なら処理を続ける
-            if (stageObject[i].isBreak) continue;
-
+        copyObjects = new List<StageObject>();
+        for (int i = 0; i < stageObject.Count; i++) {
             //ステージ上のオブジェクトを生成
-            StageObject createObject = Instantiate(stageObject[i]);
-            tasks.Add(createObject.SetUp(ParentRoot));
+            copyObjects.Add(Instantiate(stageObject[i]));
+        }
+        await UniTask.CompletedTask;
+    }
+
+    public async UniTask Initialize() {
+        List<UniTask> tasks = new List<UniTask>();
+
+        for(int i = 0,max = copyObjects.Count;i < max; i++) {
+            if (copyObjects[i].isBreak) {
+                tasks.Add(copyObjects[i].SetUp(DeadRoot));
+                continue;
+            }
+            tasks.Add(copyObjects[i].SetUp(ParentRoot));
         }
         await WaitTask(tasks);
     }
 
     public async UniTask Execute() {
+        
+
         while (endReason == eFloorEndReason.Door) {
+            for (int i = 0; i < maxStageObject; i++) {
+
+            }
+
             await UniTask.CompletedTask;
         }
-
-        await UniTask.CompletedTask;
     }
 }

@@ -24,8 +24,9 @@ public class MainGamePart : BasePart {
     }
     public override async UniTask Setup() {
         await base.Setup();
-        
+        await basePhases[(int)eGamePhase.Field].Setup();
         await ChangeGamePhase(eGamePhase.Field);
+        
         await UniTask.CompletedTask;
     }
 
