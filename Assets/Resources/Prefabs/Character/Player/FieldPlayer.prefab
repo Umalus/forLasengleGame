@@ -150,8 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBreak: 0
-  startPos: {x: 0, y: 2, z: 10}
-  fieldCharacter: {fileID: 9069781004732036501}
+  respawnPos: {x: 0, y: 0, z: 10}
 --- !u!114 &9069781004732036501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,5 +165,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   moveDir: {x: 0, y: 0, z: 0}
+  stgObj: {fileID: 8663646772071402930}
   myParty:
   - {fileID: 6579999417975817913, guid: d47fd6ed1c7ab0041b5bf89646f7f636, type: 3}

@@ -18,7 +18,7 @@ public class FieldPhase : BasePhase
 
     public override async UniTask Initialize() {
         await base.Initialize();
-        if (floorManager == null) await UniTask.CompletedTask;
+        if (floorManager == null) return;
        
         await floorManager.Initialize();
 

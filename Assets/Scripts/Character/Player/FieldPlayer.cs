@@ -11,8 +11,15 @@ public class FieldPlayer : FieldCharacterBase
     [SerializeField]
     private Action action = null;
     public FieldPlayerAction playerAction = null;
-
+    [SerializeField]
+    private StageObject stgObj = null;
     public List<BattlePlayer> myParty = null;
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Enemy")) {
+            stgObj.SetRespawnPosition(transform.position);
+        }
+    }
+
     void Start()
     {
         Initialize();
