@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class FieldPlayer : FieldCharacterBase
 {
-
     // Start is called before the first frame update
+    [SerializeField]
+    private GameObject movePlayerObj = null;
+
     public bool isBattle { get; private set; } = false;
     [SerializeField]
     private Action action = null;
@@ -42,7 +44,7 @@ public class FieldPlayer : FieldCharacterBase
         //インプットアクションを初期化
         action = InputSystemManager.instance.inputActions;
         //リジッドボディも初期化
-        rb = GetComponent<Rigidbody>();
+        rb = movePlayerObj.GetComponent<Rigidbody>();
         //プレイヤーのアクション群も初期化
         if(playerAction == null)
             playerAction = new FieldPlayerAction();
