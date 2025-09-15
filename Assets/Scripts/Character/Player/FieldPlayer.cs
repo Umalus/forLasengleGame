@@ -8,7 +8,7 @@ public class FieldPlayer : FieldCharacterBase
     // Start is called before the first frame update
     [SerializeField]
     private GameObject movePlayerObj = null;
-
+    public Animator animator = null;
     public bool isBattle { get; private set; } = false;
     [SerializeField]
     private Action action = null;
@@ -44,12 +44,13 @@ public class FieldPlayer : FieldCharacterBase
         //インプットアクションを初期化
         action = InputSystemManager.instance.inputActions;
         //リジッドボディも初期化
-        rb = movePlayerObj.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         //プレイヤーのアクション群も初期化
         if(playerAction == null)
             playerAction = new FieldPlayerAction();
 
         playerAction.operatePlayer = this;
+        playerAction.animatorState = animator.GetCurrentAnimatorStateInfo(0);
 
         action.Player.Move.performed += playerAction.OnMovePerformed;
         action.Player.Move.canceled += playerAction.OnMoveCancled;
