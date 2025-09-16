@@ -20,6 +20,7 @@ public class FieldPlayerAction {
         if (!freeze) {
             operatePlayer.moveDir.x = _callback.ReadValue<Vector2>().x;
             operatePlayer.moveDir.z = _callback.ReadValue<Vector2>().y;
+            operatePlayer.transform.LookAt(operatePlayer.transform.position + operatePlayer.moveDir);
             operatePlayer.animator.SetBool("IsRun", true);
         }
 
@@ -34,7 +35,6 @@ public class FieldPlayerAction {
         operatePlayer.animator.SetTrigger("Attack");
         operatePlayer.rb.velocity = Vector3.zero;
         operatePlayer.moveDir = Vector3.zero;
-        freeze = true;
     }
    
     public void UseItem<T>() {

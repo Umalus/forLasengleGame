@@ -6,8 +6,6 @@ using UnityEngine;
 public class FieldPlayer : FieldCharacterBase
 {
     // Start is called before the first frame update
-    [SerializeField]
-    private GameObject movePlayerObj = null;
     public Animator animator = null;
     public bool isBattle { get; private set; } = false;
     [SerializeField]
