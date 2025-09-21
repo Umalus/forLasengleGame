@@ -11,7 +11,9 @@ public class UIBattle : UIBase{
         await base.Open();
 
         BattlePlayer.normalAttackButton = normalAttackButton;
+    }
 
-        
+    public override async UniTask Close() {
+        await base.Close();
     }
 }

@@ -73,19 +73,20 @@ public class BattlePhase : BasePhase {
         //敵か味方が全滅するまでループ
         while (!battleEnd) {
             BattleCharacterBase actionCharacter = inCharacterOrder[currentTurn % inCharacterOrder.Count];
+            
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
-                if (!battleCanvas.isActiveAndEnabled)
-                    await battleCanvas.Open();
+                await battleCanvas.Open();
                 //プレイヤーの行動を選択
                 await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies,actionCharacter);
+                await battleCanvas.Close();
             }
             //turnが敵のキャラなら
             else {
                 //エネミーが行動を選択
                 await actionCharacter.GetComponent<BattleEnemy>().Order(players[0]);
-                await battleCanvas.Close();
             }
+            
             battleEnd = IsPlayerTeamAllDead();
             if (battleEnd)
                 continue;
