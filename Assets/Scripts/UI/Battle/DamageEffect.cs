@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public class DamageEffect : MonoBehaviour
@@ -10,7 +11,9 @@ public class DamageEffect : MonoBehaviour
     [SerializeField]
     private GameObject damageUI;
 
-    public async Task Damage(Collider col) {
+    public async Task Damage(Collider col,float _damage) {
+        var damageText = damageUI.GetComponentInChildren<TextMeshProUGUI>();
+        damageText.text = _damage.ToString();
         //　DamageUIをインスタンス化。登場位置は接触したコライダの中心からカメラの方向に少し寄せた位置
         var obj = Instantiate<GameObject>(damageUI, col.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
         await UniTask.DelayFrame(100);
