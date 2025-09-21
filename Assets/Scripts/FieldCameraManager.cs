@@ -20,8 +20,6 @@ public class FieldCameraManager : MonoBehaviour {
 
     [SerializeField, Header("メインのカメラ")]
     private Camera mainCamera = null;
-    [SerializeField]
-    private float lerpTime = 4.0f;
     [SerializeField, Header("各種パラメーター")]
     private Paramater param;
     [SerializeField]
@@ -57,11 +55,11 @@ public class FieldCameraManager : MonoBehaviour {
         }
         //自然に追跡
         if (param.targetObj != null) {
-            param.position = Vector3.Lerp(
-            a: param.position,
-            b: param.targetObj.transform.position,
-            t: Time.deltaTime * lerpTime);
-        }
+            param.position = param.targetObj.transform.position;
+        }//Vector3.Lerp(
+        //    a: param.position,
+        //    b: param.targetObj.transform.position,
+        //    t: Time.deltaTime * lerpTime);
         //カメラを回転
         //param.angles = RotateCamera();
 

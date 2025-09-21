@@ -29,14 +29,15 @@ public class BattlePlayerAction{
         await buttonEvent.OnInvokeAsync();
 
         int damage = Random.Range(_source.rawAttack - 5, _source.rawAttack);
-
+        Animator anim = _source.GetComponentInChildren<Animator>();
         for(int i = 0,max = _enemies.Count;i < max; i++) {
             BattleCharacterBase target = _enemies[i];
             if (!target.isSelect) continue;
 
-
+            anim.SetTrigger("Attack");
             target.RemoveHP(damage);
             Debug.Log("“G‚ÌHP" + target.HP);
+            await target.GetComponent<DamageEffect>().Damage(target.GetComponent<BoxCollider>());
         }
 
         return true;

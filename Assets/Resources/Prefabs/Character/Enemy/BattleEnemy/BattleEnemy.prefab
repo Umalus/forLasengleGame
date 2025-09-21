@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6833689006683650968}
   - component: {fileID: 4662070655595440742}
   - component: {fileID: -3536674861009891944}
+  - component: {fileID: 3973497182564407341}
   m_Layer: 0
   m_Name: BattleEnemy
   m_TagString: Untagged
@@ -148,3 +149,16 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+--- !u!114 &3973497182564407341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4860944027134675225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b82fc099825fc843af3c395f4c7db39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageUI: {fileID: 7983879131665129898, guid: 8378ab5f06f7b0546b5717a3ae05a33d, type: 3}
