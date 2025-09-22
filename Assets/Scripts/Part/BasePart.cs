@@ -5,12 +5,15 @@ using UnityEngine;
 
 public abstract class BasePart : MonoBehaviour
 {
+
+    protected Action inputActions = null;
     /// <summary>
     /// ゲーム開始時に一度だけ呼ばれる
     /// </summary>
     /// <returns></returns>
     public virtual async UniTask Init() {
         gameObject.SetActive(false);
+        inputActions = InputSystemManager.instance.inputActions;
         await UniTask.CompletedTask;
     }
 
