@@ -61,6 +61,8 @@ public class FieldCameraManager : MonoBehaviour {
         inputActions = InputSystemManager.instance.inputActions;
 
         inputActions.Player.Camera.performed += RotateCamera;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
    
@@ -113,4 +115,7 @@ public class FieldCameraManager : MonoBehaviour {
         param.targetObj = _target;
     }
 
+    public Camera GetMainCamera() {
+        return mainCamera;
+    }
 }

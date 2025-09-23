@@ -62,9 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53201b9db010c248ab48eae9efbed3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 5
   moveDir: {x: 0, y: 0, z: 0}
-  movePlayerObj: {fileID: 7160162090062725190}
   animator: {fileID: 7064293020625976314}
   stgObj: {fileID: 8663646772071402930}
   myParty:
@@ -191,11 +190,6 @@ Animator:
 --- !u!4 &7154866134038591132 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4927681395739018, guid: 1543549dcdf638d488bd40cb68dd9b8e, type: 3}
-  m_PrefabInstance: {fileID: 7159229600814300950}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7160162090062725190 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1319517528997712, guid: 1543549dcdf638d488bd40cb68dd9b8e, type: 3}
   m_PrefabInstance: {fileID: 7159229600814300950}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7160671525967464402 stripped

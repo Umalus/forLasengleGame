@@ -27,6 +27,8 @@ public class FieldPhase : BasePhase
     public override async UniTask Execute() {
         gameObject.SetActive(true);
         await FadeManager.instance.FadeIn();
+        if(Cursor.lockState == CursorLockMode.None)
+            Cursor.lockState = CursorLockMode.Locked;
         await floorManager.Execute();
 
     }

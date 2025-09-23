@@ -30,8 +30,16 @@ public class FieldPlayer : FieldCharacterBase
        
     }
     private void FixedUpdate() {
-        rb.AddForce(moveDir * moveSpeed * 10f,ForceMode.Force);
-        
+        //XZ平面の単位ベクトル取得
+        Vector3 cameraForward = Vector3.Scale(FieldCameraManager.instance.GetMainCamera().transform.forward,new Vector3(1.0f,0.0f,1.0f));
+
+        Vector3 moveForward = cameraForward * moveDir.z + FieldCameraManager.instance.GetMainCamera().transform.right * moveDir.x;
+        if (moveDir.sqrMagnitude >= Mathf.Epsilon)
+            transform.position += moveForward * moveSpeed * Time.deltaTime;
+
+        if(moveForward != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(moveForward);
+
     }
 
     public override void Initialize() {

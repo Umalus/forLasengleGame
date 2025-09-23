@@ -54,6 +54,9 @@ public class BattlePhase : BasePhase {
 
         await battleCanvas.Open();
 
+        if(Cursor.lockState != CursorLockMode.None)
+            Cursor.lockState = CursorLockMode.None;
+
         await UniTask.CompletedTask;
     }
     /// <summary>

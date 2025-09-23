@@ -20,7 +20,6 @@ public class FieldPlayerAction {
         if (!freeze) {
             operatePlayer.moveDir.x = _callback.ReadValue<Vector2>().x;
             operatePlayer.moveDir.z = _callback.ReadValue<Vector2>().y;
-            operatePlayer.transform.LookAt(operatePlayer.transform.position + operatePlayer.moveDir);
             operatePlayer.animator.SetBool("IsRun", true);
         }
 
