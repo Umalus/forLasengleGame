@@ -143,6 +143,10 @@ PrefabInstance:
       value: CameraManager
       objectReference: {fileID: 0}
     - target: {fileID: 2616267716135530983, guid: cb113e1679539644db34ef9cc05236a1, type: 3}
+      propertyPath: yMax
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616267716135530983, guid: cb113e1679539644db34ef9cc05236a1, type: 3}
       propertyPath: child
       value: 
       objectReference: {fileID: 490151929096130932}
@@ -154,6 +158,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 985487616452508413}
+    - target: {fileID: 2616267716135530983, guid: cb113e1679539644db34ef9cc05236a1, type: 3}
+      propertyPath: rotateSpeed
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 6044330043933027297, guid: cb113e1679539644db34ef9cc05236a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -18,6 +18,8 @@ public class FieldCameraManager : MonoBehaviour {
         public Vector3 offset;
     }
 
+    private Action inputActions = null;
+
     [SerializeField, Header("メインのカメラ")]
     private Camera mainCamera = null;
     [SerializeField, Header("各種パラメーター")]
@@ -28,11 +30,15 @@ public class FieldCameraManager : MonoBehaviour {
     private Transform child;
     #region カメラ回転
     //カメラ回転用メンバ変数
-    private Vector3 cameraPos;
-    private Vector3 startClickPos = Vector3.zero;
-    private Vector3 currentClickPos = Vector3.zero;
-    private float distanceX = 0.0f;
-    private float distanceY = 0.0f;
+    [SerializeField]
+    private float yMax = 80.0f;
+    [SerializeField]
+    private float yMin = -20.0f;
+
+    private float inputX;
+    private float inputY;
+
+
     [SerializeField]
     private float rotateSpeed = 1.0f;
     #endregion
@@ -43,10 +49,21 @@ public class FieldCameraManager : MonoBehaviour {
         instance = this;
     }
 
-    private void Update() {
-        //カメラを回転
-        param.angles = RotateCamera();
+    private void Start() {
+        Initialized();
     }
+
+    private void Update() {
+
+    }
+
+    private void Initialized() {
+        inputActions = InputSystemManager.instance.inputActions;
+
+        inputActions.Player.Camera.performed += RotateCamera;
+    }
+
+   
 
     private void LateUpdate() {
         //いずれかの要素が入っていなかったら
@@ -79,113 +96,16 @@ public class FieldCameraManager : MonoBehaviour {
     /// カメラ回転
     /// </summary>
     /// <returns></returns>
-    private Vector3 RotateCamera() {
-        //PC用クリック検出
-        if (UseMouse) {
-            #region Mouse
+    private void RotateCamera(InputAction.CallbackContext _callback) {
+        inputX += _callback.ReadValue<Vector2>().x * rotateSpeed * Time.deltaTime;
+        inputY -= _callback.ReadValue<Vector2>().y * rotateSpeed * Time.deltaTime;
+        inputY = Mathf.Clamp(inputY, yMin, yMax);
 
-            var click = Mouse.current;
+        Quaternion rotation = Quaternion.Euler(inputY, inputX, 0);
+        Vector3 position = rotation * new Vector3(0.0f, 0.0f, param.offset.z) + param.targetObj.transform.position;
 
-            var clickPos = click.position.ReadValue();
-            var leftClick = click.leftButton;
-
-            //クリック時
-            if (leftClick.wasPressedThisFrame) {
-                startClickPos = clickPos;
-            }
-            //押している間
-            if (leftClick.isPressed) {
-                currentClickPos = clickPos;
-                //触った地点と現在の地点の距離を計算
-                distanceX = currentClickPos.x - startClickPos.x;
-                distanceY = currentClickPos.y - startClickPos.y;
-                Debug.Log($"X{distanceX}");
-                Debug.Log($"Y{distanceY}");
-            }
-            ////離されたとき
-            //if (leftClick.wasReleasedThisFrame) {
-            //    distanceX = distanceY = 0.0f;
-            //}
-            #endregion
-        }
-
-
-
-        //スマホ用タッチ検出
-        else {
-            var touchs = Input.touchCount;
-
-            if (touchs == 2) {
-
-                #region TouchScreen
-                var touch1 = Input.touches[0];
-                var touch2 = Input.touches[1];
-
-
-
-                Vector2 touchPos1 = touch1.position;
-                if (touchPos1 == null) return Vector3.zero;
-                Vector2 touchPos2 = touch2.position;
-                if (touchPos2 == null) return Vector3.zero;
-
-
-                var press1 = touch1.phase;
-
-                var press2 = touch2.phase;
-                //タップ時
-                if (press1 == UnityEngine.TouchPhase.Began) {
-                    startClickPos = touchPos1;
-
-                    Debug.Log(startClickPos.x);
-                    Debug.Log(startClickPos.y);
-
-                }
-                //最初のタップ位置が指定座標(画面左半分)なら二つ目のタップ位置を取得し、タップ開始位置へ代入
-                if (startClickPos.x < 400.0f && startClickPos.y < 500.0f) {
-                    touch1 = Input.touches[1];
-                    //startClickPos = touch1.position;
-                }
-
-
-
-                //押している間
-                if (press1 == UnityEngine.TouchPhase.Moved) {
-                    currentClickPos = touchPos1;
-                    distanceX = currentClickPos.x - startClickPos.x;
-                    distanceY = currentClickPos.y - startClickPos.y;
-                    //Debug.Log($"X{distanceX}");
-                    //Debug.Log($"Y{distanceY}");
-
-                }
-                //離した時
-                if (press1 == UnityEngine.TouchPhase.Canceled) {
-                    cameraPos.x = distanceX;
-                    cameraPos.y = distanceY;
-                    //startClickPos = touch1.position;
-                }
-
-
-                #endregion
-            }
-
-        }
-
-        //もし指定範囲内(おおよそスティックの位置)なら現在の角度の値を返す
-        if ((startClickPos.x < 400 && startClickPos.y < 250))
-            return param.angles;
-
-
-        cameraPos = param.angles;
-        //算出距離からポジションを変更
-        cameraPos.x = -distanceY * rotateSpeed;
-        cameraPos.y = distanceX * rotateSpeed;
-        //もしカメラのX軸回転が0以下なら0にする
-        if (cameraPos.x <= 0)
-            cameraPos.x = 0.0f;
-        //もしカメラのY軸回転が85以上なら85にする
-        if (cameraPos.x >= 85)
-            cameraPos.x = 85.0f;
-        return cameraPos;
+        param.angles = rotation.eulerAngles;
+        param.position = position;
 
     }
 
