@@ -33,6 +33,9 @@ public class BattlePlayerAction{
         for(int i = 0,max = _enemies.Count;i < max; i++) {
             BattleCharacterBase target = _enemies[i];
             if (!target.isSelect) continue;
+            ParticleSystem ps = _source.GetComponentInChildren<ParticleSystem>();
+            ps.Play();
+
 
             anim.SetTrigger("Attack");
             target.RemoveHP(damage);

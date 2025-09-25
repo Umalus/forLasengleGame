@@ -31,12 +31,12 @@ public class FieldPlayerAction {
         operatePlayer.animator.SetBool("IsRun", false);
     }
     public void AttackInField(InputAction.CallbackContext _callback) {
-        TrailRenderer tr = operatePlayer.GetComponentInChildren<TrailRenderer>();
-        tr.enabled = true;
+        
         operatePlayer.animator.SetTrigger("Attack");
         operatePlayer.rb.velocity = Vector3.zero;
         operatePlayer.moveDir = Vector3.zero;
-        tr.enabled = false;
+        ParticleSystem ps = operatePlayer.GetComponentInChildren<ParticleSystem>();
+        ps.Play();
     }
    
     public void UseItem<T>() {
