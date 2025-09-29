@@ -6,6 +6,9 @@ using UnityEngine;
 
 public abstract class BattleCharacterBase : MonoBehaviour
 {
+    [SerializeField]
+    protected Animator anim = null;
+
     //キャラクターのID
     public int ID { get; private set; } = -1;
     //マスターID

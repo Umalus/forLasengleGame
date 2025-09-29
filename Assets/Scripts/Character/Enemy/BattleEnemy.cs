@@ -24,7 +24,7 @@ public class BattleEnemy : BattleCharacterBase {
                 action = Hopping();
                 break;
             default:
-                action = UniTask.CompletedTask;
+                action = UniTask.DelayFrame(1);
                 break;
         }
         await action;
@@ -32,8 +32,8 @@ public class BattleEnemy : BattleCharacterBase {
 
     private async UniTask Attack(BattlePlayer _target) {
         int damage = Random.Range(rawAttack - 5, rawAttack);
-
         _target.RemoveHP(damage);
+        anim.SetTrigger("Attack");
         Debug.Log("Player‚ÌHP:" + _target.HP);
         await UniTask.DelayFrame(500);
     }

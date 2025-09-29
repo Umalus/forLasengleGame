@@ -12,7 +12,8 @@ public class FieldEnemy : FieldCharacterBase {
     private float SearchDistance = 0.0f;
     [SerializeField]
     private SphereCollider SearchCollider = null;
-
+    [SerializeField]
+    private Animator anim = null;
     public List<BattleEnemy> myParty = null;
     // Start is called before the first frame update
     void Start() {
@@ -61,6 +62,7 @@ public class FieldEnemy : FieldCharacterBase {
 
     private void ChasePlayer(Vector3 _direction) {
         transform.LookAt(_direction);
+        anim.SetTrigger("Run");
 
         rb.AddForce(transform.forward * 10f);
     }
