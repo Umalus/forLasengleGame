@@ -7,7 +7,8 @@ public class DamageUI : UIBase
 {
     private TextMeshProUGUI damageText;
     //　フェードアウトするスピード
-    private float fadeOutSpeed = 3f;
+    [SerializeField]
+    private float fadeOutSpeed = 1f;
     //　移動値
     [SerializeField]
     private float moveSpeed = 0.4f;
