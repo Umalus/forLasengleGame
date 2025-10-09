@@ -176,6 +176,9 @@ public class BattlePhase : BasePhase {
             players[i].Initilized(i,i);
         }
         for(int i = 0,max = _battleEnemies.Count; i < max; i++) {
+            //Vector3 instancePos = enemyRoot.position;
+            //instancePos *= i;
+            //enemyRoot.position = instancePos;
             enemies.Add(Instantiate(_battleEnemies[i], enemyRoot));
             enemies[i].Initilized(_playerParty.Count + i, _playerParty.Count + 1);
         }

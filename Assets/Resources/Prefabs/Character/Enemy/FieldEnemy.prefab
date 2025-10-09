@@ -108,6 +108,8 @@ MonoBehaviour:
   anim: {fileID: 225246833563065293}
   myParty:
   - {fileID: 4662070655595440742, guid: b15e320316ec11f4fb9bfd6f2d7b919f, type: 3}
+  - {fileID: 4662070655595440742, guid: b15e320316ec11f4fb9bfd6f2d7b919f, type: 3}
+  - {fileID: 4662070655595440742, guid: b15e320316ec11f4fb9bfd6f2d7b919f, type: 3}
 --- !u!114 &7647710013201629497
 MonoBehaviour:
   m_ObjectHideFlags: 0
