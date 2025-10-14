@@ -42,9 +42,6 @@ public class FieldCameraManager : MonoBehaviour {
     [SerializeField]
     private float rotateSpeed = 1.0f;
     #endregion
-    //マウスかスマホかどうか(デバッグ用)
-    [SerializeField]
-    private bool UseMouse = false;
     private void Awake() {
         instance = this;
     }

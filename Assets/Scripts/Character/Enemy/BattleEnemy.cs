@@ -5,8 +5,11 @@ using UnityEngine;
 using static Unity.VisualScripting.Member;
 
 public class BattleEnemy : BattleCharacterBase {
+    [System.NonSerialized]
+    public PartyData partyData = null;
     public override void Initilized(int _ID, int _masterID) {
         base.Initilized(_ID, _masterID);
+        partyData = new PartyData();
     }
 
     public override bool IsPlayer() {
@@ -42,5 +45,8 @@ public class BattleEnemy : BattleCharacterBase {
         Debug.Log("pop-pop");
         //エネミーが行動を選択
         await UniTask.DelayFrame(500);
+    }
+    public void SelectEnemy() {
+        partyData.SelectOnlyCharacter(this,partyData.partyMemberList);
     }
 }

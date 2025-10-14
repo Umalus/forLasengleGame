@@ -14,7 +14,7 @@ public abstract class BattleCharacterBase : MonoBehaviour
     //マスターID
     public int masterID { get; protected set; } = -1;
     //対象に選ばれているか
-    public bool isSelect { get; protected set; } = false;
+    public bool isSelect = false;
 
     //マスターデータ依存のステータス
     public int HP { get; protected set; } = -1;
@@ -115,8 +115,10 @@ public abstract class BattleCharacterBase : MonoBehaviour
         return ID;
     }
 
-    public void SetIsSelect(bool _isSelect) {
-        isSelect = _isSelect;
-        Debug.Log("select!! : " + isSelect);
+    public void IsSelect(BattleCharacterBase _enemy, List<BattleCharacterBase> _party) {
+        foreach (var enemies in _party) {
+            enemies.isSelect = false;
+        }
+        _enemy.isSelect = true;
     }
 }

@@ -171,16 +171,27 @@ public class BattlePhase : BasePhase {
         players.Clear();
         if(!IsEmpty(enemies))
         enemies.Clear();
+        //戦闘に参加するキャラクターをそれぞれ追加
         for(int i = 0,max = _playerParty.Count; i < max; i++) {
             players.Add(Instantiate(_playerParty[i],playerRoot));
             players[i].Initilized(i,i);
         }
+
+        
         for(int i = 0,max = _battleEnemies.Count; i < max; i++) {
             //Vector3 instancePos = enemyRoot.position;
             //instancePos *= i;
             //enemyRoot.position = instancePos;
             enemies.Add(Instantiate(_battleEnemies[i], enemyRoot));
+            enemies[i].transform.position = new Vector3(enemyRoot.position.x + (2 * i), enemyRoot.position.y, enemyRoot.position.z);
             enemies[i].Initilized(_playerParty.Count + i, _playerParty.Count + 1);
+        }
+
+        for(int i = 0 , iMax = enemies.Count; i < iMax; i++) {
+            for(int j = 0 , jMax = enemies.Count; j < jMax;j++ ) {
+                //各個体にパーティーメンバーを共有
+                enemies[i].partyData.partyMemberList.Add(enemies[j]);
+            }
         }
 
 

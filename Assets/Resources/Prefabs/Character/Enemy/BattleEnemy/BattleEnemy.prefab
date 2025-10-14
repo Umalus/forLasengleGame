@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 7367401385061193484}
+  isSelect: 0
+  partyData: {fileID: 0}
 --- !u!114 &-3536674861009891944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,9 +142,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 4662070655595440742}
-          m_TargetAssemblyTypeName: BattleCharacterBase, Assembly-CSharp
-          m_MethodName: SetIsSelect
-          m_Mode: 6
+          m_TargetAssemblyTypeName: BattleEnemy, Assembly-CSharp
+          m_MethodName: SelectEnemy
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

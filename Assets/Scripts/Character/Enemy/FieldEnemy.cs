@@ -50,8 +50,7 @@ public class FieldEnemy : FieldCharacterBase {
 
     public async void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
-            List<BattlePlayer> playerParty = new List<BattlePlayer>();
-            playerParty = collision.gameObject.GetComponent<FieldPlayer>().myParty;
+            List<BattlePlayer> playerParty = collision.gameObject.GetComponent<FieldPlayer>().myParty;
 
             BattlePhase.SetCharacter(playerParty, myParty);
             BattlePhase.fieldEnemy = gameObject;
