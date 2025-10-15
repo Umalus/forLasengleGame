@@ -7,7 +7,12 @@ using static CommonModule;
 
 public class BattlePlayerAction{
 
-    //バトル中の行動選択
+    /// <summary>
+    /// バトル中の行動選択
+    /// </summary>
+    /// <param name="_enemies"></param>
+    /// <param name="_source"></param>
+    /// <returns></returns>
     public async UniTask Order(List<BattleEnemy> _enemies,BattleCharacterBase _source) {
         if (IsEmpty(_enemies)) return;
 
@@ -18,7 +23,7 @@ public class BattlePlayerAction{
     }
     
     /// <summary>
-    /// 通常攻撃
+    /// 通常攻撃(単体攻撃想定)
     /// </summary>
     /// <returns></returns>
     private async UniTask<bool> NormalAttack(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
@@ -41,6 +46,7 @@ public class BattlePlayerAction{
                 target.Dead();
 
             Debug.Log("敵のHP" + target.HP);
+            //ダメージ表記
             await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(),damage);
         }
 

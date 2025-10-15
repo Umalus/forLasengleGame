@@ -39,17 +39,21 @@ public class BattlePhase : BasePhase {
     /// <returns></returns>
     override public async UniTask Initialize() {
         if (players == null || enemies == null) await UniTask.CompletedTask;
-        //キャラクター全ての行動順を設定
+       
         int characterMax = players.Count + enemies.Count;
         inCharacterOrder = new List<BattleCharacterBase>(characterMax);
 
         allAddExp = 0;
+        //キャラクター全ての行動順を設定
         for(int i = 0,max = players.Count;i < max; i++) {
             inCharacterOrder.Add(players[i]);
         }
         for(int i = 0,max = enemies.Count;i < max; i++) {
             inCharacterOrder.Add(enemies[i]);
-            allAddExp += inCharacterOrder[i + players.Count].exp;
+            int exp = Random.Range(enemies[i].exp - 5, enemies[i].exp);
+                if (exp <= 0)
+                exp = 1;
+            allAddExp += exp;
         }
 
         await battleCanvas.Open();
@@ -114,6 +118,10 @@ public class BattlePhase : BasePhase {
                 tasks.Add(players[i].AddExp(allAddExp));
             }
             await WaitTask(tasks);
+            for(int i = 0, max = players.Count;i < max; i++) {
+                Debug.Log(players[i] + "は" + allAddExp + "の経験値を手に入れた！");
+                await UniTask.DelayFrame(500);
+            }
         }
         //フェードアウト
         await FadeManager.instance.FadeOut();

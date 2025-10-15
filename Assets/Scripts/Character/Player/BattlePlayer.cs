@@ -21,6 +21,7 @@ public class BattlePlayer : BattleCharacterBase
         base.Initilized(_ID, _masterID);
         playerAction = new BattlePlayerAction();
         HP *= 100;
+        anim = GetComponentInChildren<Animator>();
     }
 
     /// <summary>
@@ -29,5 +30,8 @@ public class BattlePlayer : BattleCharacterBase
     /// <returns></returns>
     public override bool IsPlayer() {
         return true;
+    }
+    public void TakeDamageAnimation() {
+        anim.SetTrigger("Damage");
     }
 }

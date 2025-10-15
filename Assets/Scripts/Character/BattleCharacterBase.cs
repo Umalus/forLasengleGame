@@ -55,7 +55,7 @@ public abstract class BattleCharacterBase : MonoBehaviour
         SetCriticalPower(_param.CriticalPower);
         SetCriticalRatio(_param.CriticalRatio);
         SetSpeed(_param.Speed);
-        exp = 0;
+        exp = _param.MaxAddExp;
         addExp = SetAddExp(_param.MaxAddExp);
 
         SetLv(_param.Lv);

@@ -37,6 +37,7 @@ public class BattleEnemy : BattleCharacterBase {
         int damage = Random.Range(rawAttack - 5, rawAttack);
         _target.RemoveHP(damage);
         anim.SetTrigger("Attack");
+        _target.TakeDamageAnimation();
         Debug.Log("Player‚ÌHP:" + _target.HP);
         await UniTask.DelayFrame(500);
     }
