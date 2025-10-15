@@ -49,4 +49,6 @@ public class BattleEnemy : BattleCharacterBase {
     public void SelectEnemy() {
         partyData.SelectOnlyCharacter(this,partyData.partyMemberList);
     }
+
+    
 }

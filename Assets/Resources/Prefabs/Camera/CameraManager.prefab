@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  lerpTime: 4
   param:
     targetObj: {fileID: 0}
     position: {x: 0, y: 0, z: 0}
@@ -54,5 +53,6 @@ MonoBehaviour:
     offset: {x: 0, y: 0, z: -5}
   parent: {fileID: 0}
   child: {fileID: 0}
-  rotateSpeed: 1
-  UseMouse: 0
+  yMax: 80
+  yMin: 5
+  rotateSpeed: 200

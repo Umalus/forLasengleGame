@@ -121,4 +121,12 @@ public abstract class BattleCharacterBase : MonoBehaviour
         }
         _enemy.isSelect = true;
     }
+
+    public async void Dead() {
+        //死亡アニメーションを流す
+        anim.SetTrigger("Dead");
+        await UniTask.DelayFrame(1000);
+        //非表示にする
+        gameObject.SetActive(false);
+    }
 }

@@ -20,6 +20,7 @@ public class BattlePlayer : BattleCharacterBase
     public override void Initilized(int _ID, int _masterID) {
         base.Initilized(_ID, _masterID);
         playerAction = new BattlePlayerAction();
+        HP *= 100;
     }
 
     /// <summary>

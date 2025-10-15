@@ -37,6 +37,9 @@ public class BattlePlayerAction{
 
             anim.SetTrigger("Attack");
             target.RemoveHP(damage);
+            if (target.isDead)
+                target.Dead();
+
             Debug.Log("“G‚ÌHP" + target.HP);
             await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(),damage);
         }
