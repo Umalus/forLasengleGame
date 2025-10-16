@@ -40,17 +40,19 @@ public class BattlePlayerAction {
                 ParticleSystem ps = _source.GetComponentInChildren<ParticleSystem>();
                 ps.Play();
             }
-
-
-
-            anim.SetTrigger("Attack");
             target.RemoveHP(damage);
+            //ダメージ表記
+            await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(), damage);
+            anim.SetTrigger("Attack");
+            var a = anim.GetCurrentAnimatorStateInfo(0).length;
+            float waitTime = a * 1000;
+            await UniTask.DelayFrame((int)waitTime);
+            
             if (target.isDead)
                 target.Dead();
 
             Debug.Log("敵のHP" + target.HP);
-            //ダメージ表記
-            await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(), damage);
+            
         }
 
         return true;
