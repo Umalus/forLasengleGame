@@ -5,7 +5,7 @@ using UnityEngine;
 
 using static CommonModule;
 
-public class BattlePlayerAction{
+public class BattlePlayerAction {
 
     /// <summary>
     /// バトル中の行動選択
@@ -13,15 +13,15 @@ public class BattlePlayerAction{
     /// <param name="_enemies"></param>
     /// <param name="_source"></param>
     /// <returns></returns>
-    public async UniTask Order(List<BattleEnemy> _enemies,BattleCharacterBase _source) {
+    public async UniTask Order(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
         if (IsEmpty(_enemies)) return;
 
         while (true) {
-            if (await NormalAttack(_enemies,_source))
+            if (await NormalAttack(_enemies, _source))
                 break;
         }
     }
-    
+
     /// <summary>
     /// 通常攻撃(単体攻撃想定)
     /// </summary>
@@ -33,11 +33,14 @@ public class BattlePlayerAction{
 
         int damage = Random.Range(_source.rawAttack - 5, _source.rawAttack);
         Animator anim = _source.GetComponentInChildren<Animator>();
-        for(int i = 0,max = _enemies.Count;i < max; i++) {
+        for (int i = 0, max = _enemies.Count; i < max; i++) {
             BattleCharacterBase target = _enemies[i];
             if (!target.isSelect) continue;
-            ParticleSystem ps = _source.GetComponentInChildren<ParticleSystem>();
-            ps.Play();
+            if (_source.ID == 0) {
+                ParticleSystem ps = _source.GetComponentInChildren<ParticleSystem>();
+                ps.Play();
+            }
+
 
 
             anim.SetTrigger("Attack");
@@ -47,7 +50,7 @@ public class BattlePlayerAction{
 
             Debug.Log("敵のHP" + target.HP);
             //ダメージ表記
-            await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(),damage);
+            await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(), damage);
         }
 
         return true;

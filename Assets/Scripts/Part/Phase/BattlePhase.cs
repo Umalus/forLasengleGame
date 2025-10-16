@@ -39,26 +39,26 @@ public class BattlePhase : BasePhase {
     /// <returns></returns>
     override public async UniTask Initialize() {
         if (players == null || enemies == null) await UniTask.CompletedTask;
-       
+
         int characterMax = players.Count + enemies.Count;
         inCharacterOrder = new List<BattleCharacterBase>(characterMax);
 
         allAddExp = 0;
         //キャラクター全ての行動順を設定
-        for(int i = 0,max = players.Count;i < max; i++) {
+        for (int i = 0, max = players.Count; i < max; i++) {
             inCharacterOrder.Add(players[i]);
         }
-        for(int i = 0,max = enemies.Count;i < max; i++) {
+        for (int i = 0, max = enemies.Count; i < max; i++) {
             inCharacterOrder.Add(enemies[i]);
             int exp = Random.Range(enemies[i].exp - 5, enemies[i].exp);
-                if (exp <= 0)
+            if (exp <= 0)
                 exp = 1;
             allAddExp += exp;
         }
 
         await battleCanvas.Open();
 
-        if(Cursor.lockState != CursorLockMode.None)
+        if (Cursor.lockState != CursorLockMode.None)
             Cursor.lockState = CursorLockMode.None;
 
         await UniTask.CompletedTask;
@@ -71,7 +71,7 @@ public class BattlePhase : BasePhase {
         gameObject.SetActive(true);
         await FadeManager.instance.FadeIn();
 
-        
+
 
         //inCharacterOrder.Sort((a,b) => b.speed - a.speed);
         //経過ターンを初期化
@@ -80,12 +80,12 @@ public class BattlePhase : BasePhase {
         //敵か味方が全滅するまでループ
         while (!battleEnd) {
             BattleCharacterBase actionCharacter = inCharacterOrder[currentTurn % inCharacterOrder.Count];
-            
+
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
                 await battleCanvas.Open();
                 //プレイヤーの行動を選択
-                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies,actionCharacter);
+                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies, actionCharacter);
                 await battleCanvas.Close();
             }
             //turnが敵のキャラなら
@@ -93,7 +93,7 @@ public class BattlePhase : BasePhase {
                 //エネミーが行動を選択
                 await actionCharacter.GetComponent<BattleEnemy>().Order(players[0]);
             }
-            
+
             battleEnd = IsPlayerTeamAllDead();
             if (battleEnd)
                 continue;
@@ -110,15 +110,15 @@ public class BattlePhase : BasePhase {
         //戦闘終了後処理
 
         //敵側が全滅なら
-        if(IsEnemiesTeamAllDead(enemies)) {
+        if (IsEnemiesTeamAllDead(enemies)) {
             fieldEnemy.GetComponent<StageObject>().isBreak = true;
 
             List<UniTask> tasks = new List<UniTask>();
-            for(int i = 0,max = players.Count; i < max; i++) {
+            for (int i = 0, max = players.Count; i < max; i++) {
                 tasks.Add(players[i].AddExp(allAddExp));
             }
             await WaitTask(tasks);
-            for(int i = 0, max = players.Count;i < max; i++) {
+            for (int i = 0, max = players.Count; i < max; i++) {
                 Debug.Log(players[i] + "は" + allAddExp + "の経験値を手に入れた！");
                 await UniTask.DelayFrame(500);
             }
@@ -140,8 +140,8 @@ public class BattlePhase : BasePhase {
     /// <param name="_source"></param>
     /// <param name="_target"></param>
     /// <returns></returns>
-    private bool IsRelativeEnemy(BattleCharacterBase _source,BattleCharacterBase _target) {
-        return _source.IsPlayer() !=  _target.IsPlayer();
+    private bool IsRelativeEnemy(BattleCharacterBase _source, BattleCharacterBase _target) {
+        return _source.IsPlayer() != _target.IsPlayer();
     }
     /// <summary>
     /// プレイヤーが倒されたか判定
@@ -173,30 +173,32 @@ public class BattlePhase : BasePhase {
     /// <summary>
     /// 戦闘に参加するキャラクターを設定
     /// </summary>
-    public static void SetCharacter(List<BattlePlayer> _playerParty,List<BattleEnemy> _battleEnemies) {
+    public static void SetCharacter(List<BattlePlayer> _playerParty, List<BattleEnemy> _battleEnemies) {
         //一度戦闘に参加したキャラクターをリセット
-        if(!IsEmpty(players))
-        players.Clear();
-        if(!IsEmpty(enemies))
-        enemies.Clear();
+        if (!IsEmpty(players))
+            players.Clear();
+        if (!IsEmpty(enemies))
+            enemies.Clear();
         //戦闘に参加するキャラクターをそれぞれ追加
-        for(int i = 0,max = _playerParty.Count; i < max; i++) {
-            players.Add(Instantiate(_playerParty[i],playerRoot));
-            players[i].Initilized(i,i);
+        for (int i = 0, max = _playerParty.Count; i < max; i++) {
+            players.Add(Instantiate(_playerParty[i], playerRoot));
+            players[i].transform.position = new Vector3(playerRoot.position.x + (2 * i),
+               playerRoot.position.y, playerRoot.position.z);
+            players[i].Initilized(i, i);
         }
 
-        
-        for(int i = 0,max = _battleEnemies.Count; i < max; i++) {
+
+        for (int i = 0, max = _battleEnemies.Count; i < max; i++) {
             //Vector3 instancePos = enemyRoot.position;
             //instancePos *= i;
             //enemyRoot.position = instancePos;
             enemies.Add(Instantiate(_battleEnemies[i], enemyRoot));
-            enemies[i].transform.position = new Vector3(enemyRoot.position.x + (2 * i), enemyRoot.position.y, enemyRoot.position.z);
+            enemies[i].transform.position = new Vector3(enemyRoot.position.x + (2 * i),    enemyRoot.position.y, enemyRoot.position.z);
             enemies[i].Initilized(_playerParty.Count + i, _playerParty.Count + 1);
         }
 
-        for(int i = 0 , iMax = enemies.Count; i < iMax; i++) {
-            for(int j = 0 , jMax = enemies.Count; j < jMax;j++ ) {
+        for (int i = 0, iMax = enemies.Count; i < iMax; i++) {
+            for (int j = 0, jMax = enemies.Count; j < jMax; j++) {
                 //各個体にパーティーメンバーを共有
                 enemies[i].partyData.partyMemberList.Add(enemies[j]);
             }

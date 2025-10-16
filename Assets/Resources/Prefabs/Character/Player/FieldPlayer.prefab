@@ -68,6 +68,7 @@ MonoBehaviour:
   stgObj: {fileID: 8663646772071402930}
   myParty:
   - {fileID: 6579999417975817913, guid: d47fd6ed1c7ab0041b5bf89646f7f636, type: 3}
+  - {fileID: 6579999417975817913, guid: 1e1f9f1d490026c4399bed5dde168b94, type: 3}
 --- !u!136 &3359653416598625572
 CapsuleCollider:
   m_ObjectHideFlags: 0
