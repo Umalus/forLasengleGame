@@ -125,7 +125,11 @@ public abstract class BattleCharacterBase : MonoBehaviour
     public async void Dead() {
         //死亡アニメーションを流す
         anim.SetTrigger("Dead");
-        await UniTask.DelayFrame(1);
+        //レイヤーは一つなので0番目の長さを取得
+        float animLength = anim.GetCurrentAnimatorClipInfo(0).Length;
+        //ms対応するために1000倍
+        float waitTime = animLength * 1000;
+        await UniTask.DelayFrame((int)waitTime);
         //非表示にする
         gameObject.SetActive(false);
     }

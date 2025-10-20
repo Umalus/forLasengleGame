@@ -44,14 +44,15 @@ public class BattlePlayerAction {
             //ダメージ表記
             await target.GetComponent<DamageEffect>().Damage(target.GetComponentInChildren<SphereCollider>(), damage);
             anim.SetTrigger("Attack");
-            var a = anim.GetCurrentAnimatorStateInfo(0).length;
-            float waitTime = a * 1000;
-            await UniTask.DelayFrame((int)waitTime);
-            
             if (target.isDead)
                 target.Dead();
-
+            float animLength = anim.GetCurrentAnimatorStateInfo(0).length;
             Debug.Log("敵のHP" + target.HP);
+            float waitTime = animLength * 1000;
+            await EffectManager.instance.ExecuteEffect(1, target.transform);
+            await UniTask.DelayFrame((int)waitTime);
+            
+            
             
         }
 
