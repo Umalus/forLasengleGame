@@ -11,10 +11,11 @@ public class SkillDataManager : MonoBehaviour
         skills = new List<SkillDataBase>();
         //skills.Add(new );
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    /// <summary>
+    /// スキルを使用
+    /// </summary>
+    /// <param name="_id"></param>
+    public void ExecuteSkill(int _id,BattleCharacterBase _useCharacter) {
+        skills[_id].UseSkill(_useCharacter);
     }
 }

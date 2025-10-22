@@ -53,12 +53,13 @@ public class SkillData_importer : AssetPostprocessor {
 					cell = row.GetCell(0); p.ID = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(1); p.name = (cell == null ? "" : cell.StringCellValue);
 					cell = row.GetCell(2); p.Lv = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(3); p.rangeType = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(3); p.NeedMP = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(4); p.rangeType = (int)(cell == null ? 0 : cell.NumericCellValue);
 					p.effectID = new int[4];
-					cell = row.GetCell(5); p.effectID[0] = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(6); p.effectID[1] = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(7); p.effectID[2] = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(8); p.effectID[3] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(6); p.effectID[0] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(7); p.effectID[1] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(8); p.effectID[2] = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(9); p.effectID[3] = (int)(cell == null ? 0 : cell.NumericCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

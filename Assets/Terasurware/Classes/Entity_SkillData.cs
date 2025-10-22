@@ -20,6 +20,7 @@ public class Entity_SkillData : ScriptableObject
 		public int ID;
 		public string name;
 		public int Lv;
+		public int NeedMP;
 		public int rangeType;
 		public int[] effectID;
 	}

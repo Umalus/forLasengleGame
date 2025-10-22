@@ -18,40 +18,48 @@ MonoBehaviour:
     - ID: 100
       name: "\u65AC\u6483"
       Lv: 1
+      NeedMP: 3
       rangeType: 1
       effectID: 00000000ffffffffffffffffffffffff
     - ID: 101
       name: "\u706B\u708E\u5207\u308A"
       Lv: 3
+      NeedMP: 6
       rangeType: 1
       effectID: 00000000ffffffffffffffffffffffff
     - ID: 102
       name: "\u786C\u5316"
       Lv: 1
+      NeedMP: 3
       rangeType: 0
       effectID: 03000000ffffffffffffffffffffffff
     - ID: 103
       name: "\u6311\u767A"
       Lv: 3
+      NeedMP: 6
       rangeType: 0
       effectID: 04000000ffffffffffffffffffffffff
     - ID: 104
       name: "\u30D5\u30A1\u30A4\u30E4\u30FC\u30DC\u30FC\u30EB"
       Lv: 1
+      NeedMP: 5
       rangeType: 1
       effectID: 00000000ffffffffffffffffffffffff
     - ID: 105
       name: "\u7B4B\u529B\u5897\u5F37"
       Lv: 3
+      NeedMP: 5
       rangeType: 1
       effectID: 05000000ffffffffffffffffffffffff
     - ID: 106
       name: "\u30D2\u30FC\u30EB"
       Lv: 1
-      rangeType: 0
+      NeedMP: 3
+      rangeType: 1
       effectID: 01000000ffffffffffffffffffffffff
     - ID: 107
       name: "\u5168\u4F53\u56DE\u5FA9"
       Lv: 3
+      NeedMP: 8
       rangeType: 2
-      effectID: 00000000ffffffffffffffffffffffff
+      effectID: 01000000ffffffffffffffffffffffff
