@@ -19,6 +19,7 @@ public class BattlePlayerAction {
         while (true) {
             if (await NormalAttack(_enemies, _source))
                 break;
+            
         }
     }
 
@@ -51,11 +52,14 @@ public class BattlePlayerAction {
             float waitTime = animLength * 1000;
             await EffectManager.instance.ExecuteEffect(1, target.transform);
             await UniTask.DelayFrame((int)waitTime);
-            
-            
-            
         }
+        return true;
+    }
 
+    private async UniTask<bool> UseSkill(List<BattleCharacterBase> _enemies, BattleCharacterBase _source) {
+        int id = 0;
+
+        await SkillDataManager.instance.ExecuteSkill(id,_enemies, _source);
         return true;
     }
 }
