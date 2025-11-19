@@ -58,8 +58,6 @@ public class BattlePlayerAction {
 
     private async UniTask<bool> UseSkill(List<BattleCharacterBase> _enemies, BattleCharacterBase _source) {
         int id = 0;
-
-        await SkillDataManager.instance.ExecuteSkill(id,_enemies, _source);
         return true;
     }
 }

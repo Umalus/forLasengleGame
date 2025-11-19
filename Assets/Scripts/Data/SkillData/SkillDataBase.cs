@@ -6,24 +6,16 @@ using UnityEngine;
 /// <summary>
 /// スキルデータの基底　
 /// </summary>
-public abstract class SkillDataBase : MonoBehaviour
+[CreateAssetMenu(fileName = "SkillData", menuName = "RPG/Skill")]
+public class SkillDataBase : ScriptableObject
 {
-    protected int id;
-    protected int needMP;
-    protected int rangeType;
-    protected string skillName;
-    protected int lv;
+    [Header("基本情報")]
+    public string skillName;
+    public string description;
+    public Sprite icon;
 
-    //マスターデータから情報を受け取ってメンバを初期化
-    public void Initialize(int _id) {
-        Entity_SkillData.Param initParam = SkillDataUtility.GetSkillData(_id);
-        id = initParam.ID;
-        lv = initParam.Lv;
-        rangeType = initParam.rangeType;
-        needMP = initParam.NeedMP;
-        skillName = initParam.name;
-    }
-
-    public abstract UniTask UseSkill(List<BattleCharacterBase> _enemies, BattleCharacterBase _useCharacter);
-    
+    [Header("数値パラメータ(威力は%換算される)")]
+    public int power;
+    public int needMP;
+    public int range;
 }

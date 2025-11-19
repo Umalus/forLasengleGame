@@ -1,17 +1,15 @@
 /*
  * @brief   戦闘用のプレイヤー
  */
-using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading;
 
 public class BattlePlayer : BattleCharacterBase
 {
     public static Button normalAttackButton = null;
     public BattlePlayerAction playerAction = null;
+    public List<LearnableSkill> skillPool;
     /// <summary>
     /// 初期化関数
     /// </summary>
@@ -22,6 +20,7 @@ public class BattlePlayer : BattleCharacterBase
         playerAction = new BattlePlayerAction();
         HP *= 100;
         anim = GetComponentInChildren<Animator>();
+        skillPool = new List<LearnableSkill>();
     }
 
     /// <summary>
@@ -31,7 +30,17 @@ public class BattlePlayer : BattleCharacterBase
     public override bool IsPlayer() {
         return true;
     }
+
+    public void LevelUp() {
+        lv++;
+        CheckAddNewSkills();
+    }
+
     public void TakeDamageAnimation() {
         anim.SetTrigger("Damage");
+    }
+
+    private void CheckAddNewSkills() {
+        
     }
 }
