@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 608392701342957359}
   isSelect: 0
+  skillPool:
+  - {fileID: 11400000, guid: a8de38bb604bcb34c821c511ff2c7fbb, type: 2}
 --- !u!1001 &658523716272632991
 PrefabInstance:
   m_ObjectHideFlags: 0

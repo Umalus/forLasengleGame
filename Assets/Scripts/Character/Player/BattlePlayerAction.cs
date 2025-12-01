@@ -17,9 +17,14 @@ public class BattlePlayerAction {
         if (IsEmpty(_enemies)) return;
 
         while (true) {
-            if (await NormalAttack(_enemies, _source))
-                break;
-            
+            var normalAttackTask = NormalAttack(_enemies, _source);
+            var useSkillTask = UseSkill(_enemies, _source);
+
+            var (index,_,_) = await UniTask.WhenAny(normalAttackTask, useSkillTask);
+
+            if (index == 0) break; // NormalAttack が選ばれた
+            if (index == 1) break; // UseSkill が選ばれた
+
         }
     }
 
@@ -56,8 +61,20 @@ public class BattlePlayerAction {
         return true;
     }
 
-    private async UniTask<bool> UseSkill(List<BattleCharacterBase> _enemies, BattleCharacterBase _source) {
-        int id = 0;
+    private async UniTask<bool> UseSkill(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
+
+        //対象のボタンが押されたかどうか判定
+        var buttonEvent = BattlePlayer.skillButton.onClick.GetAsyncEventHandler(CancellationToken.None);
+        await buttonEvent.OnInvokeAsync();
+
+        for(int i = 0,max = _enemies.Count; i < max; i++) {
+            SkillDataBase useSkill = _source.GetComponent<BattlePlayer>().usableSkill[0];
+            //必要MPを確認
+            if (useSkill.needMP > _source.MP) return false;
+            _source.SetMP(useSkill.needMP);
+            await useSkill.Execute(_enemies[i], _source);
+        }
+
         return true;
     }
 }

@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class UIBattle : UIBase{
     public Button normalAttackButton = null;
+    public Button skillButton = null;
 
     public override async UniTask Open() {
         await base.Open();
 
         BattlePlayer.normalAttackButton = normalAttackButton;
+        BattlePlayer.skillButton = skillButton;
     }
 
     public override async UniTask Close() {

@@ -120,6 +120,7 @@ public class BattlePhase : BasePhase {
             await WaitTask(tasks);
             for (int i = 0, max = players.Count; i < max; i++) {
                 Debug.Log(players[i] + "‚Í" + allAddExp + "‚ÌŒoŒ±’l‚ðŽè‚É“ü‚ê‚½I");
+                players[i].LevelUp();
                 await UniTask.DelayFrame(500);
             }
         }

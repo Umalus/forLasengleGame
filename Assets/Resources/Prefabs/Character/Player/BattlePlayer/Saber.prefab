@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd2b9893b6a6e342b0bb02976e63838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 357734059459874018}
+  isSelect: 0
+  skillPool:
+  - {fileID: 11400000, guid: 95b9c13887e99bf42972406586256907, type: 2}
 --- !u!1001 &406789948935227406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112,6 +116,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8642593728669102497}
   m_SourcePrefab: {fileID: 100100000, guid: 1543549dcdf638d488bd40cb68dd9b8e, type: 3}
+--- !u!95 &357734059459874018 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95658022555206892, guid: 1543549dcdf638d488bd40cb68dd9b8e, type: 3}
+  m_PrefabInstance: {fileID: 406789948935227406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &405417398159487178 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1514802341279940, guid: 1543549dcdf638d488bd40cb68dd9b8e, type: 3}

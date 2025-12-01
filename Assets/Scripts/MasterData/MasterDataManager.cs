@@ -7,15 +7,11 @@ public class MasterDataManager{
     private static readonly string _DATA_PATH = "MasterData/";
 
     public static List<List<Entity_CharacterStatus.Param>> characterStatus = null;
-    public static List<List<Entity_SkillData.Param>> skillData = null;
-    public static List<List<Entity_SkillEffectData.Param>> skillEffectData = null;
     /// <summary>
     /// 全てのマスターデータを読み込む
     /// </summary>
     public static void LoadAllData() {
         characterStatus = Load<Entity_CharacterStatus, Entity_CharacterStatus.Sheet, Entity_CharacterStatus.Param>("CharacterStatus");
-        skillData = Load<Entity_SkillData, Entity_SkillData.Sheet, Entity_SkillData.Param>("SkillData");
-        skillEffectData = Load<Entity_SkillEffectData, Entity_SkillEffectData.Sheet, Entity_SkillEffectData.Param>("SkillEffectData");
     }
 
     /// <summary>
