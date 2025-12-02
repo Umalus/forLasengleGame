@@ -4,18 +4,22 @@ using UnityEngine;
 public class StageObject : MonoBehaviour
 {
     public bool isBreak = false;
-    [SerializeField]
-    private Vector3 respawnPos;
+    private Transform respawnPos;
     // Update is called once per frame
     public async UniTask SetUp(Transform _setParent) {
         transform.SetParent(_setParent);
-
-        transform.position = respawnPos;
-        
         await UniTask.CompletedTask;
     }
+    public async UniTask SetUp(Transform _setParent, Transform _spawnPos) {
+        transform.SetParent(_setParent);
 
-    public void SetRespawnPosition(Vector3 _pos) {
+        transform.position = _spawnPos.position;
+
+        await UniTask.CompletedTask;
+    }
+    
+
+    public void SetRespawnPosition(Transform _pos) {
         respawnPos = _pos;
     }
 }

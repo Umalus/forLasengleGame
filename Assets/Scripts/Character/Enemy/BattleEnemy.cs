@@ -7,9 +7,12 @@ using static Unity.VisualScripting.Member;
 public class BattleEnemy : BattleCharacterBase {
     [System.NonSerialized]
     public PartyData partyData = null;
+    public GameObject targetUI = null;
     public override void Initilized(int _ID, int _masterID) {
         base.Initilized(_ID, _masterID);
         partyData = new PartyData();
+        targetUI.transform.LookAt(Vector3.back);
+        targetUI.SetActive(false);
     }
 
     public override bool IsPlayer() {
@@ -49,6 +52,7 @@ public class BattleEnemy : BattleCharacterBase {
     }
     public void SelectEnemy() {
         partyData.SelectOnlyCharacter(this,partyData.partyMemberList);
+
     }
 
     

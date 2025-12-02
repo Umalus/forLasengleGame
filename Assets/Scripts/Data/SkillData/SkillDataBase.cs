@@ -1,11 +1,22 @@
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// スキルデータの基底　
 /// </summary>
-public abstract class SkillDataBase : ScriptableObject
-{
+public abstract class SkillDataBase : ScriptableObject {
+    public enum TargetType {
+        EnemySingle,
+        EnemyAll,
+        AllySingle,
+        AllyAll,
+        RandomEnemy,
+        RangeEnemy
+    }
+
+
+
     [Header("基本情報")]
     public string skillName;
     public string description;
@@ -16,15 +27,15 @@ public abstract class SkillDataBase : ScriptableObject
     public int ID;
     [Tooltip("威力(%)")]
     public int power;
-    [Tooltip("必要レベル"),Range(0,10)]
+    [Tooltip("必要レベル"), Range(0, 10)]
     public int requiredLevel;
     [Tooltip("必要MP")]
     public int needMP;
-    [Tooltip("対象の数"),Range(0,5)]
-    public int range;
+    [Tooltip("対象の数")]
+    public TargetType targetType;
 
     [System.NonSerialized]
     public const float RATIO = 0.01f;
 
-    public abstract UniTask Execute(BattleCharacterBase _target,BattleCharacterBase _source);
+    public abstract UniTask Execute(IEnumerable<BattleCharacterBase> _target,BattleCharacterBase _source);
 }

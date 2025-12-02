@@ -1,9 +1,12 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
 using static CommonModule;
+using static SkillDataBase;
+using static Unity.VisualScripting.Member;
 
 public class BattlePlayerAction {
 
@@ -13,14 +16,14 @@ public class BattlePlayerAction {
     /// <param name="_enemies"></param>
     /// <param name="_source"></param>
     /// <returns></returns>
-    public async UniTask Order(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
+    public async UniTask Order(List<BattleEnemy> _enemies, List<BattlePlayer> _partyMember, BattleCharacterBase _source) {
         if (IsEmpty(_enemies)) return;
 
         while (true) {
             var normalAttackTask = NormalAttack(_enemies, _source);
-            var useSkillTask = UseSkill(_enemies, _source);
+            var useSkillTask = UseSkill(_enemies,_partyMember, _source);
 
-            var (index,_,_) = await UniTask.WhenAny(normalAttackTask, useSkillTask);
+            var (index, _, _) = await UniTask.WhenAny(normalAttackTask, useSkillTask);
 
             if (index == 0) break; // NormalAttack が選ばれた
             if (index == 1) break; // UseSkill が選ばれた
@@ -37,6 +40,7 @@ public class BattlePlayerAction {
         var buttonEvent = BattlePlayer.normalAttackButton.onClick.GetAsyncEventHandler(CancellationToken.None);
         await buttonEvent.OnInvokeAsync();
 
+        await BattlePhase.battleCanvas.Close();
         int damage = Random.Range(_source.rawAttack - 5, _source.rawAttack);
         Animator anim = _source.GetComponentInChildren<Animator>();
         for (int i = 0, max = _enemies.Count; i < max; i++) {
@@ -55,26 +59,45 @@ public class BattlePlayerAction {
             float animLength = anim.GetCurrentAnimatorStateInfo(0).length;
             Debug.Log("敵のHP" + target.HP);
             float waitTime = animLength * 1000;
-            await EffectManager.instance.ExecuteEffect(1, target.transform);
+            EffectManager.instance.ExecuteEffect(1, target.transform);
             await UniTask.DelayFrame((int)waitTime);
         }
         return true;
     }
 
-    private async UniTask<bool> UseSkill(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
+    private async UniTask<bool> UseSkill(List<BattleEnemy> _enemies, List<BattlePlayer> _partyMember, BattleCharacterBase _source) {
 
         //対象のボタンが押されたかどうか判定
         var buttonEvent = BattlePlayer.skillButton.onClick.GetAsyncEventHandler(CancellationToken.None);
         await buttonEvent.OnInvokeAsync();
+        await BattlePhase.battleCanvas.Close();
+        //使うスキルを選択(まだ一個目のみ対応)
+        SkillDataBase useSkill = _source.GetComponent<BattlePlayer>().usableSkill[0];
 
-        for(int i = 0,max = _enemies.Count; i < max; i++) {
-            SkillDataBase useSkill = _source.GetComponent<BattlePlayer>().usableSkill[0];
-            //必要MPを確認
-            if (useSkill.needMP > _source.MP) return false;
-            _source.SetMP(useSkill.needMP);
-            await useSkill.Execute(_enemies[i], _source);
+        //必要MPを確認
+        if (useSkill.needMP > _source.currentMP) {
+            Debug.Log("MPがたりません");
+            return false;
         }
+        _source.SetMP(_source.currentMP - useSkill.needMP);
+        var targets = SelectTargets(useSkill, _enemies, _partyMember);
+        await useSkill.Execute(targets, _source);
 
         return true;
     }
+
+    IEnumerable<BattleCharacterBase> SelectTargets(
+    SkillDataBase skill,
+    List<BattleEnemy> enemies,
+    List<BattlePlayer> allies) {
+        return skill.targetType switch {
+            TargetType.EnemySingle => new[] { enemies.First(e => e.isSelect) },
+            TargetType.EnemyAll => enemies,
+            TargetType.AllySingle => new[] { allies.First(a => a.isSelect) },
+            TargetType.AllyAll => allies,
+            TargetType.RandomEnemy => new[] { enemies[UnityEngine.Random.Range(0, enemies.Count)] },
+            _ => Enumerable.Empty<BattleCharacterBase>()
+        };
+    }
+
 }

@@ -18,6 +18,8 @@ public class FloorManager : MonoBehaviour{
     private Transform ParentRoot = null;
     [SerializeField]
     private Transform DeadRoot = null;
+    [SerializeField]
+    private List<Transform> spawnPositions;
 
     public async UniTask Setup() {
         instance = this;

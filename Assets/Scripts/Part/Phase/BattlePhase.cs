@@ -13,8 +13,7 @@ public class BattlePhase : BasePhase {
     [SerializeField]
     private static Transform enemyRoot;
 
-    [SerializeField]
-    UIBattle battleCanvas = null;
+    public static UIBattle battleCanvas = null;
 
     //戦闘に参加しているプレイヤー
     [SerializeField]
@@ -32,6 +31,7 @@ public class BattlePhase : BasePhase {
     private void Awake() {
         playerRoot = GameObject.Find("PlayerRoot").transform;
         enemyRoot = GameObject.Find("EnemyRoot").transform;
+        battleCanvas = GameObject.Find("BattleCanvas").GetComponent<UIBattle>();
     }
     /// <summary>
     /// 初期化処理
@@ -80,20 +80,19 @@ public class BattlePhase : BasePhase {
         //敵か味方が全滅するまでループ
         while (!battleEnd) {
             BattleCharacterBase actionCharacter = inCharacterOrder[currentTurn % inCharacterOrder.Count];
-
+            Debug.Log($"{actionCharacter.name}のターン");
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
                 await battleCanvas.Open();
                 //プレイヤーの行動を選択
-                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies, actionCharacter);
-                await battleCanvas.Close();
+                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies, players,actionCharacter);
             }
             //turnが敵のキャラなら
             else {
+                int selectIndex = Random.Range(0, players.Count);
                 //エネミーが行動を選択
-                await actionCharacter.GetComponent<BattleEnemy>().Order(players[0]);
+                await actionCharacter.GetComponent<BattleEnemy>().Order(players[selectIndex]);
             }
-
             battleEnd = IsPlayerTeamAllDead();
             if (battleEnd)
                 continue;
@@ -106,6 +105,7 @@ public class BattlePhase : BasePhase {
                 isPlayerTurn = !isPlayerTurn;
             //経過ターンを一つ進め、キャラクターの数を超えたらリセット
             currentTurn++;
+            await UniTask.DelayFrame(500);
         }
         //戦闘終了後処理
 
@@ -134,6 +134,12 @@ public class BattlePhase : BasePhase {
     /// <returns></returns>
     public override async UniTask Teardown() {
         await base.Teardown();
+        for (int i = 0, max = players.Count; i < max; i++) {
+            Destroy(playerRoot.GetChild(i).gameObject);
+        }
+        for (int i = 0, max = enemies.Count; i < max; i++) {
+            Destroy(enemyRoot.GetChild(i).gameObject);
+        }
     }
     /// <summary>
     /// 相対的を判定
@@ -188,13 +194,9 @@ public class BattlePhase : BasePhase {
             players[i].Initilized(i, i);
         }
 
-
         for (int i = 0, max = _battleEnemies.Count; i < max; i++) {
-            //Vector3 instancePos = enemyRoot.position;
-            //instancePos *= i;
-            //enemyRoot.position = instancePos;
             enemies.Add(Instantiate(_battleEnemies[i], enemyRoot));
-            enemies[i].transform.position = new Vector3(enemyRoot.position.x + (2 * i),    enemyRoot.position.y, enemyRoot.position.z);
+            enemies[i].transform.position = new Vector3(enemyRoot.position.x + (2 * i), enemyRoot.position.y, enemyRoot.position.z);
             enemies[i].Initilized(_playerParty.Count + i, _playerParty.Count + 1);
         }
 

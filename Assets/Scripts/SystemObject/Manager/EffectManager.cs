@@ -27,8 +27,7 @@ public class EffectManager : SystemObject
         await UniTask.CompletedTask;
     }
 
-    public async UniTask ExecuteEffect(int _effectIndex, Transform _firePoint) {
+    public void ExecuteEffect(int _effectIndex, Transform _firePoint) {
         GameObject instanceEffect = Instantiate(copyEffects[_effectIndex], _firePoint);
-        await UniTask.DelayFrame(1);
     }
 }

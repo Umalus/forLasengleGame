@@ -16,7 +16,7 @@ public class FieldPlayer : FieldCharacterBase
     public List<BattlePlayer> myParty = null;
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Enemy")) {
-            stgObj.SetRespawnPosition(transform.position);
+            stgObj.SetRespawnPosition(transform);
         }
     }
 

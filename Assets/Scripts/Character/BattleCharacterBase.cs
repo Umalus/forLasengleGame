@@ -19,7 +19,7 @@ public abstract class BattleCharacterBase : MonoBehaviour
     //マスターデータ依存のステータス
     public int HP { get; protected set; } = -1;
     public int MaxHP { get; protected set; } = -1;
-    public int MP { get; protected set; } = -1;
+    public int currentMP { get; protected set; } = -1;
     public int MaxMP { get; protected set; } = -1;
     public int rawAttack { get; protected set; } = -1;
     public int rawDefence { get; protected set; } = -1;
@@ -75,7 +75,7 @@ public abstract class BattleCharacterBase : MonoBehaviour
         SetHP(HP - _damage);
     }
     public void SetMP(int _MP) {
-        MP = _MP;
+        currentMP = _MP;
     }public void SetRawAttack(int _attack) {
         rawAttack = _attack;
     }
