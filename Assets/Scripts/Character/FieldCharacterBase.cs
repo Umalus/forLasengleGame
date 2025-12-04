@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class FieldCharacterBase : MonoBehaviour
@@ -20,6 +18,6 @@ public abstract class FieldCharacterBase : MonoBehaviour
         
     }
     public virtual void Initialize() {
-        //transform.SetParent(SetRoot);
+        
     }
 }

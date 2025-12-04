@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2616267716135530983, guid: cb113e1679539644db34ef9cc05236a1, type: 3}
       propertyPath: yMax
-      value: 80
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 2616267716135530983, guid: cb113e1679539644db34ef9cc05236a1, type: 3}
       propertyPath: child

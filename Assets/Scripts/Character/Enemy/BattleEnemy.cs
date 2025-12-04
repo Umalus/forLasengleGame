@@ -1,8 +1,5 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Member;
 
 public class BattleEnemy : BattleCharacterBase {
     [System.NonSerialized]
@@ -51,6 +48,9 @@ public class BattleEnemy : BattleCharacterBase {
         await UniTask.DelayFrame(500);
     }
     public void SelectEnemy() {
+
+
+        if (!BattlePhase.isPlayerTurn || BattlePhase.commandEnd) return;
         partyData.SelectOnlyCharacter(this,partyData.partyMemberList);
 
     }

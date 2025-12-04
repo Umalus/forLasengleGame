@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -30,7 +29,8 @@ public class BattlePhase : BasePhase {
     private int allAddExp = -1;
 
     private CancellationTokenSource cts;
-    public bool isPlayerTurn { get; private set; } = true;
+    public static bool isPlayerTurn { get; private set; } = true;
+    public static bool commandEnd = false;
     private void Awake() {
         playerRoot = GameObject.Find("PlayerRoot").transform;
         enemyRoot = GameObject.Find("EnemyRoot").transform;
@@ -100,6 +100,7 @@ public class BattlePhase : BasePhase {
             Debug.Log($"{actionCharacter.name}のターン");
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
+                commandEnd = false;
                 await battleCanvas.Open();
                 //プレイヤーの行動を選択
                 await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies, players,actionCharacter);

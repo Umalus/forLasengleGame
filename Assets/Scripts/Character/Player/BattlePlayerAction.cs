@@ -53,6 +53,7 @@ public class BattlePlayerAction {
         await buttonEvent.OnInvokeAsync();
 
         await BattlePhase.battleCanvas.Close();
+        BattlePhase.commandEnd = true;
         int damage = UnityEngine.Random.Range(_source.rawAttack - 5, _source.rawAttack);
         Animator anim = _source.GetComponentInChildren<Animator>();
         for (int i = 0, max = _enemies.Count; i < max; i++) {
@@ -83,6 +84,7 @@ public class BattlePlayerAction {
         var buttonEvent = BattlePlayer.skillButton.onClick.GetAsyncEventHandler(_token);
         await buttonEvent.OnInvokeAsync();
         await BattlePhase.battleCanvas.Close();
+        BattlePhase.commandEnd = true;
         //使うスキルを選択(まだ一個目のみ対応)
         SkillDataBase useSkill = _source.GetComponent<BattlePlayer>().usableSkill[0];
 
