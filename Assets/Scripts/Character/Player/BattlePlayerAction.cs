@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using System;
 
 using static CommonModule;
 using static SkillDataBase;
-using static Unity.VisualScripting.Member;
 
 public class BattlePlayerAction {
 
@@ -19,29 +19,55 @@ public class BattlePlayerAction {
     public async UniTask Order(List<BattleEnemy> _enemies, List<BattlePlayer> _partyMember, BattleCharacterBase _source) {
         if (IsEmpty(_enemies)) return;
 
-        while (true) {
-            var normalAttackTask = NormalAttack(_enemies, _source);
-            var useSkillTask = UseSkill(_enemies,_partyMember, _source);
+        //while (true) {
+        //    var normalAttackTask = NormalAttack(_enemies, _source, _cts.Token);
+        //    var useSkillTask = UseSkill(_enemies, _partyMember, _source, _cts.Token);
+
+        //    var (index, _, _) = await UniTask.WhenAny(normalAttackTask, useSkillTask);
+
+        //    //勝利タスクが決まったため選ばれなかったタスクをキャンセル
+        //    _cts.Cancel();
+
+        //    if (index == 0) break; // NormalAttack が選ばれた
+        //    if (index == 1) break; // UseSkill が選ばれた
+
+        //}
+
+        var _cts = new CancellationTokenSource();
+
+        try {
+            var normalAttackTask = NormalAttack(_enemies, _source, _cts.Token).SuppressCancellationThrow();
+            var useSkillTask = UseSkill(_enemies, _partyMember, _source, _cts.Token).SuppressCancellationThrow();
 
             var (index, _, _) = await UniTask.WhenAny(normalAttackTask, useSkillTask);
 
-            if (index == 0) break; // NormalAttack が選ばれた
-            if (index == 1) break; // UseSkill が選ばれた
+            // 勝者が決まったので残りをキャンセル
+            _cts.Cancel();
 
+            if (index == 0) {
+                // NormalAttack が選ばれた
+            }
+            else if (index == 1) {
+                // UseSkill が選ばれた
+            }
         }
+        catch (OperationCanceledException) {
+            // 敗者側のキャンセルでここに来る → 無視してOK
+        }
+
     }
 
     /// <summary>
     /// 通常攻撃(単体攻撃想定)
     /// </summary>
     /// <returns></returns>
-    private async UniTask<bool> NormalAttack(List<BattleEnemy> _enemies, BattleCharacterBase _source) {
+    private async UniTask<bool> NormalAttack(List<BattleEnemy> _enemies, BattleCharacterBase _source,CancellationToken _token) {
         //対象のボタンが押されたかどうか判定
-        var buttonEvent = BattlePlayer.normalAttackButton.onClick.GetAsyncEventHandler(CancellationToken.None);
+        var buttonEvent = BattlePlayer.normalAttackButton.onClick.GetAsyncEventHandler(_token);
         await buttonEvent.OnInvokeAsync();
 
         await BattlePhase.battleCanvas.Close();
-        int damage = Random.Range(_source.rawAttack - 5, _source.rawAttack);
+        int damage = UnityEngine.Random.Range(_source.rawAttack - 5, _source.rawAttack);
         Animator anim = _source.GetComponentInChildren<Animator>();
         for (int i = 0, max = _enemies.Count; i < max; i++) {
             BattleCharacterBase target = _enemies[i];
@@ -60,15 +86,15 @@ public class BattlePlayerAction {
             Debug.Log("敵のHP" + target.HP);
             float waitTime = animLength * 1000;
             EffectManager.instance.ExecuteEffect(1, target.transform);
-            await UniTask.DelayFrame((int)waitTime);
+            await UniTask.DelayFrame((int)waitTime,cancellationToken:_token);
         }
         return true;
     }
 
-    private async UniTask<bool> UseSkill(List<BattleEnemy> _enemies, List<BattlePlayer> _partyMember, BattleCharacterBase _source) {
+    private async UniTask<bool> UseSkill(List<BattleEnemy> _enemies, List<BattlePlayer> _partyMember, BattleCharacterBase _source, CancellationToken _token) {
 
         //対象のボタンが押されたかどうか判定
-        var buttonEvent = BattlePlayer.skillButton.onClick.GetAsyncEventHandler(CancellationToken.None);
+        var buttonEvent = BattlePlayer.skillButton.onClick.GetAsyncEventHandler(_token);
         await buttonEvent.OnInvokeAsync();
         await BattlePhase.battleCanvas.Close();
         //使うスキルを選択(まだ一個目のみ対応)
@@ -81,7 +107,7 @@ public class BattlePlayerAction {
         }
         _source.SetMP(_source.currentMP - useSkill.needMP);
         var targets = SelectTargets(useSkill, _enemies, _partyMember);
-        await useSkill.Execute(targets, _source);
+        await useSkill.Execute(targets, _source,_token);
 
         return true;
     }

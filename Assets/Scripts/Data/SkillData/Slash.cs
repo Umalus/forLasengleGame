@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Skill/Slash")]
@@ -11,7 +12,7 @@ public class Slash : SkillDataBase {
     /// ÉXÉLÉãèàóù
     /// </summary>
     /// <returns></returns>
-    public override async UniTask Execute(IEnumerable<BattleCharacterBase> _targets, BattleCharacterBase _source) {
+    public override async UniTask Execute(IEnumerable<BattleCharacterBase> _targets, BattleCharacterBase _source,CancellationToken _token ) {
         Animator anim = _source.GetComponentInChildren<Animator>();
         foreach (var target in _targets) {
             if (!target.isSelect) return;
@@ -29,7 +30,7 @@ public class Slash : SkillDataBase {
             Debug.Log("ìGÇÃHP" + target.HP);
             float waitTime = animLength * 1000;
             EffectManager.instance.ExecuteEffect(1, target.transform);
-            await UniTask.DelayFrame((int)waitTime);
+            await UniTask.DelayFrame((int)waitTime, cancellationToken: _token);
         }
 
         

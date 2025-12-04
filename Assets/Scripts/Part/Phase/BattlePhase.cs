@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 using static CommonModule;
@@ -27,11 +28,14 @@ public class BattlePhase : BasePhase {
     public static GameObject fieldEnemy = null;
 
     private int allAddExp = -1;
+
+    private CancellationTokenSource cts;
     public bool isPlayerTurn { get; private set; } = true;
     private void Awake() {
         playerRoot = GameObject.Find("PlayerRoot").transform;
         enemyRoot = GameObject.Find("EnemyRoot").transform;
         battleCanvas = GameObject.Find("BattleCanvas").GetComponent<UIBattle>();
+        cts = new CancellationTokenSource();
     }
     /// <summary>
     /// èâä˙âªèàóù

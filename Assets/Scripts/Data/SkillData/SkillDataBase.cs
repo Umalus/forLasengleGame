@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -37,5 +39,5 @@ public abstract class SkillDataBase : ScriptableObject {
     [System.NonSerialized]
     public const float RATIO = 0.01f;
 
-    public abstract UniTask Execute(IEnumerable<BattleCharacterBase> _target,BattleCharacterBase _source);
+    public abstract UniTask Execute(IEnumerable<BattleCharacterBase> _target,BattleCharacterBase _source,CancellationToken _token);
 }
