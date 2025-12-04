@@ -67,6 +67,7 @@ public class BattlePhase : BasePhase {
 
         await UniTask.CompletedTask;
     }
+
     /// <summary>
     /// 更新処理
     /// </summary>
@@ -76,14 +77,26 @@ public class BattlePhase : BasePhase {
         await FadeManager.instance.FadeIn();
 
 
-
+        //行動順リストをスピード順にソートしなおし(まだ未対応、データが詳しく決まっていないため)
         //inCharacterOrder.Sort((a,b) => b.speed - a.speed);
+
         //経過ターンを初期化
         int currentTurn = 0;
         bool battleEnd = false;
-        //敵か味方が全滅するまでループ
+        //----------------バトルループ----------------
         while (!battleEnd) {
             BattleCharacterBase actionCharacter = inCharacterOrder[currentTurn % inCharacterOrder.Count];
+            //死亡していたらとばす
+            if (actionCharacter.isDead) {
+                //ターンを変更
+                if (IsRelativeEnemy(inCharacterOrder[currentTurn % inCharacterOrder.Count], 
+                    inCharacterOrder[(currentTurn + 1) % inCharacterOrder.Count]))
+                    isPlayerTurn = !isPlayerTurn;
+                //経過ターンを一つ進め、キャラクターの数を超えたらリセット
+                currentTurn++;
+                continue;
+            }
+
             Debug.Log($"{actionCharacter.name}のターン");
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
@@ -97,10 +110,7 @@ public class BattlePhase : BasePhase {
                 //エネミーが行動を選択
                 await actionCharacter.GetComponent<BattleEnemy>().Order(players[selectIndex]);
             }
-            battleEnd = IsPlayerTeamAllDead();
-            if (battleEnd)
-                continue;
-            battleEnd = IsEnemiesTeamAllDead(enemies);
+            battleEnd = IsPlayerTeamAllDead() || IsEnemiesTeamAllDead(enemies);
             if (battleEnd)
                 continue;
 
@@ -111,7 +121,7 @@ public class BattlePhase : BasePhase {
             currentTurn++;
             await UniTask.DelayFrame(500);
         }
-        //戦闘終了後処理
+        //----------------戦闘終了後処理----------------
 
         //敵側が全滅なら
         if (IsEnemiesTeamAllDead(enemies)) {
@@ -132,6 +142,7 @@ public class BattlePhase : BasePhase {
         await FadeManager.instance.FadeOut();
         await MainGamePart.ChangeGamePhase(eGamePhase.Field);
     }
+
     /// <summary>
     /// 解放処理
     /// </summary>

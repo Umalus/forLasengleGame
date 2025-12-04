@@ -18,21 +18,7 @@ public class BattlePlayerAction {
     /// <returns></returns>
     public async UniTask Order(List<BattleEnemy> _enemies, List<BattlePlayer> _partyMember, BattleCharacterBase _source) {
         if (IsEmpty(_enemies)) return;
-
-        //while (true) {
-        //    var normalAttackTask = NormalAttack(_enemies, _source, _cts.Token);
-        //    var useSkillTask = UseSkill(_enemies, _partyMember, _source, _cts.Token);
-
-        //    var (index, _, _) = await UniTask.WhenAny(normalAttackTask, useSkillTask);
-
-        //    //勝利タスクが決まったため選ばれなかったタスクをキャンセル
-        //    _cts.Cancel();
-
-        //    if (index == 0) break; // NormalAttack が選ばれた
-        //    if (index == 1) break; // UseSkill が選ばれた
-
-        //}
-
+        //各キャラクターで待機するために関数に入るたびにトークン再生成
         var _cts = new CancellationTokenSource();
 
         try {
