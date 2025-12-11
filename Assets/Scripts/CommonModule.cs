@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CommonModule{
 
@@ -70,4 +71,20 @@ public class CommonModule{
             _list.Clear();
         }
     }
+
+    /// <summary>
+    /// 一つのオブジェクトのレイヤーをすべて変更
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="layer"></param>
+    public static void SetLayerRecursively(GameObject obj, int layer) {
+        if (obj == null) return;
+
+        obj.layer = layer;
+
+        foreach (Transform child in obj.transform) {
+            SetLayerRecursively(child.gameObject, layer);
+        }
+    }
+
 }

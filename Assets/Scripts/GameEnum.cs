@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameEnum {
+    public enum eObjectLayer {
+        Default,
+        TranparentFX,
+        IgnoreRaycast,
+        Enemy,
+        Water,
+        UI,
+        VisibleObj,
+        InvisibleObj,
+
+    }
+
     public enum eGamePart {
         Invalid = -1,
         Standby,

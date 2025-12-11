@@ -74,9 +74,6 @@ public class BattlePhase : BasePhase {
     /// <returns></returns>
     public override async UniTask Execute() {
         gameObject.SetActive(true);
-        await FadeManager.instance.FadeIn();
-
-
         //行動順リストをスピード順にソートしなおし(まだ未対応、データが詳しく決まっていないため)
         //inCharacterOrder.Sort((a,b) => b.speed - a.speed);
 
@@ -100,13 +97,18 @@ public class BattlePhase : BasePhase {
             Debug.Log($"{actionCharacter.name}のターン");
             //turnが自分のキャラクターなら
             if (isPlayerTurn) {
+                AllPlayerInvisible();
+                SetLayerRecursively(actionCharacter.gameObject, (int)eObjectLayer.VisibleObj);
+                BattleCameraManager.instance.CameraInit(actionCharacter);
                 commandEnd = false;
                 await battleCanvas.Open();
                 //プレイヤーの行動を選択
-                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies, players,actionCharacter);
+                await actionCharacter.GetComponent<BattlePlayer>().playerAction.Order(enemies, players,actionCharacter); 
             }
             //turnが敵のキャラなら
             else {
+                AllPlayerVisible();
+                BattleCameraManager.instance.CameraInit();
                 int selectIndex = Random.Range(0, players.Count);
                 //エネミーが行動を選択
                 await actionCharacter.GetComponent<BattleEnemy>().Order(players[selectIndex]);
@@ -193,6 +195,21 @@ public class BattlePhase : BasePhase {
         }
         return true;
     }
+
+    private void AllPlayerVisible() {
+        foreach (var player in players) {
+            SetLayerRecursively(player.gameObject, (int)eObjectLayer.VisibleObj);
+        }
+    }
+
+    private void AllPlayerInvisible() {
+        foreach (var player in players) {
+            SetLayerRecursively(player.gameObject, (int)eObjectLayer.InvisibleObj);
+        }
+    }
+
+
+
     /// <summary>
     /// 戦闘に参加するキャラクターを設定
     /// </summary>

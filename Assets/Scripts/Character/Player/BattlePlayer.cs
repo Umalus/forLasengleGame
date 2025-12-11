@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static GameEnum;
+using static CommonModule;
+
 public class BattlePlayer : BattleCharacterBase
 {
     public static Button normalAttackButton = null;
@@ -14,6 +17,7 @@ public class BattlePlayer : BattleCharacterBase
     
     [System.NonSerialized]
     public List<SkillDataBase> usableSkill = null;
+    public Transform cameraRoot;
 
     /// <summary>
     /// èâä˙âªä÷êî
@@ -29,6 +33,7 @@ public class BattlePlayer : BattleCharacterBase
         anim = GetComponentInChildren<Animator>();
         usableSkill = new List<SkillDataBase>();
         CheckAddNewSkills();
+        SetLayerRecursively(gameObject,(int)eObjectLayer.InvisibleObj);
     }
 
     /// <summary>
